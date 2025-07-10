@@ -1028,11 +1028,8 @@
             </p>
             
             <div class="social-links">
-                <a href="https://facebook.com/yourpage" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://twitter.com/yourhandle" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://facebook.com/yourpage" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i><a>
                 <a href="https://instagram.com/yourprofile" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://youtube.com/yourchannel" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://t.me/yourchannel" class="social-link" target="_blank"><i class="fab fa-telegram-plane"></i></a>
             </div>
             
             <div class="footer-links">
@@ -1047,7 +1044,7 @@
             </div>
             
             <div class="copyright">
-                &copy; 2023 OSM LIVE. جميع الحقوق محفوظة.
+                &copy; 2025 OSM LIVE. جميع الحقوق محفوظة.
             </div>
         </div>
     </footer>
@@ -1063,50 +1060,50 @@
         const matches = [
             {
                 id: 1,
-                competition: "دوري أبطال أوروبا - نصف النهائي",
+                competition: "كأس أمم أفريقيا للسيدات",
                 homeTeam: {
-                    name: "بايرن ميونخ",
-                    logo: "https://img.icons8.com/color/96/000000/fc-bayern-münchen.png",
-                    shortName: "بايرن"
+                    name: "غانا",
+                    logo: "https://jdwel.com/image/teams/flag_ghana_v2.png",
+                    shortName: "غانا"
                 },
                 awayTeam: {
-                    name: "باريس سان جيرمان",
-                    logo: "https://img.icons8.com/color/96/000000/paris-saint-germain.png",
-                    shortName: "باريس"
+                    name: "مالي",
+                    logo: "https://jdwel.com/image/teams/35.png",
+                    shortName: "مالي"
                 },
-                date: "2023-05-15T21:00:00", // UTC time
-                stadium: "أليانز أرينا - ميونخ",
-                broadcaster: "beIN Sports HD 1",
-                commentator: "علي محمد علي",
+                date: "2025-07-11T17:00:00", // UTC time
+                stadium: "المغرب",
+                broadcaster: "beIN SPORTS 3",
+                commentator: " أحمد عبده",
                 status: "upcoming", // upcoming, live, finished
                 currentMinute: 0,
                 score: "0 - 0",
-                streamUrl: "#",
+                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
                 highlightsUrl: "#",
                 events: [],
                 isFeatured: true
             },
             {
                 id: 2,
-                competition: "الدوري الإنجليزي - الجولة 32",
+                competition: "كأس أمم أفريقيا للسيدات",
                 homeTeam: {
-                    name: "مانشستر سيتي",
-                    logo: "https://img.icons8.com/color/96/000000/manchester-city.png",
-                    shortName: "مان سيتي"
+                    name: "تنزانيا",
+                    logo: "https://jdwel.com/image/teams/85.png",
+                    shortName: "تنزانيا"
                 },
                 awayTeam: {
-                    name: "ليفربول",
-                    logo: "https://img.icons8.com/color/96/000000/liverpool-fc.png",
-                    shortName: "ليفربول"
+                    name: "جنوب أفريقيا",
+                    logo: "https://jdwel.com/image/teams/50.png",
+                    shortName: "جنوب أفريقيا"
                 },
-                date: "2023-05-18T18:30:00",
-                stadium: "ملعب الاتحاد - مانشستر",
-                broadcaster: "Sky Sports Premier League",
-                commentator: "محمد الشمراني",
+                date: "2025-07-11T20:00:00",
+                stadium: "المغرب",
+                broadcaster: "beIN SPORTS 3",
+                commentator: " جواد بدة",
                 status: "live",
                 currentMinute: 64,
                 score: "1 - 1",
-                streamUrl: "https://example.com/live-stream",
+                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
                 highlightsUrl: "#",
                 events: [
                     { time: 23, type: "goal", team: "home", player: "جوليان ألفاريز", description: "هدف رائع بتسديدة قوية من خارج المنطقة" },
@@ -1116,93 +1113,7 @@
                 ],
                 isFeatured: true
             },
-            {
-                id: 3,
-                competition: "كأس العالم للأندية - النهائي",
-                homeTeam: {
-                    name: "ريال مدريد",
-                    logo: "https://img.icons8.com/color/96/000000/real-madrid.png",
-                    shortName: "ريال مدريد"
-                },
-                awayTeam: {
-                    name: "الهلال",
-                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png",
-                    shortName: "الهلال"
-                },
-                date: "2023-05-12T20:00:00",
-                stadium: "ملعب مراكش - المغرب",
-                broadcaster: "MBC الرياضية",
-                commentator: "خالد الغامدي",
-                status: "finished",
-                currentMinute: 90,
-                score: "3 - 1",
-                streamUrl: "#",
-                highlightsUrl: "https://example.com/highlights",
-                events: [
-                    { time: 13, type: "goal", team: "home", player: "فينيسيوس جونيور", description: "هدف مبكر بعد عرضية دقيقة من كروس" },
-                    { time: 28, type: "goal", team: "away", player: "أوديون إيغالو", description: "تعادل بعد خطأ دفاعي من ريال مدريد" },
-                    { time: 45, type: "yellow-card", team: "home", player: "كاسيميرو", description: "خطأ تكتيكي لوقف هجمة خطيرة" },
-                    { time: 58, type: "goal", team: "home", player: "كاريم بنزيما", description: "تقدم ريال مدريد بعد كرة عرضية" },
-                    { time: 78, type: "red-card", team: "away", player: "علي البليهي", description: "طرد مباشر بعد عرقلة واضحة على مهاجم" },
-                    { time: 89, type: "goal", team: "home", player: "فيدريكو فالفيردي", description: "هدف قاتل في الدقائق الأخيرة" }
-                ],
-                isFeatured: false
-            },
-            {
-                id: 4,
-                competition: "الدوري الإسباني - الجولة 30",
-                homeTeam: {
-                    name: "برشلونة",
-                    logo: "https://img.icons8.com/color/96/000000/fc-barcelona.png",
-                    shortName: "برشلونة"
-                },
-                awayTeam: {
-                    name: "أتلتيكو مدريد",
-                    logo: "https://img.icons8.com/color/96/000000/atletico-de-madrid.png",
-                    shortName: "أتلتيكو"
-                },
-                date: "2023-05-20T19:45:00",
-                stadium: "كامب نو - برشلونة",
-                broadcaster: "beIN Sports HD 2",
-                commentator: "حسين المطيري",
-                status: "upcoming",
-                currentMinute: 0,
-                score: "0 - 0",
-                streamUrl: "#",
-                highlightsUrl: "#",
-                events: [],
-                isFeatured: true
-            },
-            {
-                id: 5,
-                competition: "الدوري السعودي - الجولة 25",
-                homeTeam: {
-                    name: "الهلال",
-                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png",
-                    shortName: "الهلال"
-                },
-                awayTeam: {
-                    name: "النصر",
-                    logo: "https://img.icons8.com/color/96/000000/al-nassr.png",
-                    shortName: "النصر"
-                },
-                date: "2023-05-14T20:00:00",
-                stadium: "ملعب جامعة الملك سعود - الرياض",
-                broadcaster: "SSC الرياضية",
-                commentator: "عمر الدوسري",
-                status: "finished",
-                currentMinute: 90,
-                score: "2 - 0",
-                streamUrl: "#",
-                highlightsUrl: "https://example.com/highlights",
-                events: [
-                    { time: 35, type: "goal", team: "home", player: "أوديون إيغالو", description: "هدف بعد كرة عرضية دقيقة" },
-                    { time: 45, type: "yellow-card", team: "away", player: "كريستيانو رونالدو", description: "احتجاج على قرار الحكم" },
-                    { time: 67, type: "goal", team: "home", player: "سالم الدوسري", description: "هدف ثاني بعد هجمة مرتدة" },
-                    { time: 78, type: "red-card", team: "away", player: "علي لاجامي", description: "طرد بعد تدخل عنيف" }
-                ],
-                isFeatured: true
-            }
+    
         ];
 
         // متغير لتخزين المنطقة الزمنية المختارة
