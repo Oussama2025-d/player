@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جدول المباريات الاحترافي</title>
+    <title>OSM LIVE - بث مباشر</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -30,6 +30,7 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
         }
         
         .header h1 {
@@ -47,6 +48,26 @@
             width: 80px;
             height: 3px;
             background: var(--secondary-color);
+        }
+        
+        .timezone-selector {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        
+        .timezone-selector select {
+            border: none;
+            background: transparent;
+            font-family: 'Tajawal', Arial, sans-serif;
+            font-size: 14px;
+            outline: none;
         }
         
         .match-card {
@@ -164,6 +185,13 @@
             margin-left: 8px;
         }
         
+        .time-info {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
         .match-details {
             display: flex;
             flex-wrap: wrap;
@@ -219,6 +247,18 @@
             transform: translateY(-2px);
         }
         
+        .watch-live-btn {
+            background: var(--live-color);
+        }
+        
+        .watch-highlights-btn {
+            background: #7f8c8d;
+        }
+        
+        .watch-reminder-btn {
+            background: var(--upcoming-color);
+        }
+        
         .match-footer {
             display: flex;
             justify-content: space-between;
@@ -228,7 +268,32 @@
             border-top: 1px solid #eee;
         }
         
+        .live-minutes {
+            color: var(--live-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .live-minutes i {
+            margin-left: 5px;
+            font-size: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
         @media (max-width: 768px) {
+            .header {
+                padding-top: 50px;
+            }
+            
+            .timezone-selector {
+                position: static;
+                transform: none;
+                margin-bottom: 15px;
+                width: 100%;
+                text-align: center;
+            }
+            
             .teams {
                 flex-direction: column;
             }
@@ -255,187 +320,319 @@
 <body>
     <div class="matches-container">
         <div class="header">
-            <h1><i class="fas fa-calendar-alt"></i> جدول المباريات</h1>
+            <div class="timezone-selector">
+                <select id="timezone-select">
+                    <option value="auto">التوقيت التلقائي (حسب موقعك)</option>
+                    <option value="Asia/Riyadh">المملكة العربية السعودية (توقيت الرياض)</option>
+                    <option value="Asia/Dubai">الإمارات العربية المتحدة (توقيت دبي)</option>
+                    <option value="Africa/Cairo">مصر (توقيت القاهرة)</option>
+                    <option value="Asia/Baghdad">العراق (توقيت بغداد)</option>
+                    <option value="Asia/Amman">الأردن (توقيت عمان)</option>
+                    <option value="Europe/London">بريطانيا (توقيت لندن)</option>
+                    <option value="Europe/Paris">فرنسا (توقيت باريس)</option>
+                    <option value="America/New_York">الولايات المتحدة (توقيت نيويورك)</option>
+                </select>
+            </div>
+            <h1><i class="fas fa-calendar-alt"></i>OSM LIVE</h1>
         </div>
         
-        <!-- مباراة قادمة -->
-        <div class="match-card">
-            <div class="match-header">
-                <span class="competition"><i class="fas fa-trophy"></i> دوري أبطال أوروبا</span>
-                <span class="match-status status-upcoming">قريبًا</span>
-            </div>
-            <div class="match-content">
-                <div class="teams">
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/fc-bayern-münchen.png" class="team-logo" alt="بايرن ميونخ">
-                        <span class="team-name">بايرن ميونخ</span>
-                    </div>
-                    <span class="vs">VS</span>
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/paris-saint-germain.png" class="team-logo" alt="باريس سان جيرمان">
-                        <span class="team-name">باريس سان جيرمان</span>
-                    </div>
-                </div>
-                
-                <div class="match-time">
-                    <i class="far fa-clock"></i> الأربعاء 15 مايو 2023 - 21:00 بتوقيت مكة
-                </div>
-                
-                <div class="match-details">
-                    <div class="detail-box">
-                        <i class="fas fa-tv detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>القناة الناقلة</h4>
-                            <p>beIN Sports HD 1</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-microphone detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>المعلق</h4>
-                            <p>علي محمد علي</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-stadium detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>الملعب</h4>
-                            <p>أليانز أرينا</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <a href="#" class="watch-btn"><i class="fas fa-bell"></i> تذكير بالمباراة</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- مباراة جارية -->
-        <div class="match-card">
-            <div class="match-header">
-                <span class="competition"><i class="fas fa-trophy"></i> الدوري الإنجليزي</span>
-                <span class="match-status status-live">مباشر الآن <i class="fas fa-circle" style="font-size: 10px;"></i></span>
-            </div>
-            <div class="match-content">
-                <div class="teams">
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/manchester-city.png" class="team-logo" alt="مانشستر سيتي">
-                        <span class="team-name">مانشستر سيتي</span>
-                    </div>
-                    <span class="vs">VS</span>
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/liverpool-fc.png" class="team-logo" alt="ليفربول">
-                        <span class="team-name">ليفربول</span>
-                    </div>
-                </div>
-                
-                <div class="match-time">
-                    <i class="far fa-clock"></i> السبت 18 مايو 2023 - 18:30 بتوقيت مكة
-                </div>
-                
-                <div class="match-details">
-                    <div class="detail-box">
-                        <i class="fas fa-tv detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>القناة الناقلة</h4>
-                            <p>Sky Sports Premier League</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-microphone detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>المعلق</h4>
-                            <p>محمد الشمراني</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-stadium detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>الملعب</h4>
-                            <p>الاتحاد</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <a href="#" class="watch-btn"><i class="fas fa-play"></i> مشاهدة مباشرة</a>
-                </div>
-            </div>
-            <div class="match-footer">
-                <div style="color: var(--live-color); font-weight: bold;">
-                    <i class="fas fa-circle" style="font-size: 10px;"></i> النتيجة: 1 - 1
-                </div>
-                <div style="color: #666;">
-                    الدقيقة 64'
-                </div>
-            </div>
-        </div>
-        
-        <!-- مباراة منتهية -->
-        <div class="match-card">
-            <div class="match-header">
-                <span class="competition"><i class="fas fa-trophy"></i> كأس العالم للأندية</span>
-                <span class="match-status status-finished">انتهت</span>
-            </div>
-            <div class="match-content">
-                <div class="teams">
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/real-madrid.png" class="team-logo" alt="ريال مدريد">
-                        <span class="team-name">ريال مدريد</span>
-                    </div>
-                    <span class="vs">VS</span>
-                    <div class="team">
-                        <img src="https://img.icons8.com/color/96/000000/al-hilal.png" class="team-logo" alt="الهلال">
-                        <span class="team-name">الهلال</span>
-                    </div>
-                </div>
-                
-                <div class="match-time">
-                    <i class="far fa-clock"></i> الجمعة 12 مايو 2023 - 20:00 بتوقيت مكة
-                </div>
-                
-                <div class="match-details">
-                    <div class="detail-box">
-                        <i class="fas fa-tv detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>القناة الناقلة</h4>
-                            <p>MBC الرياضية</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-microphone detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>المعلق</h4>
-                            <p>خالد الغامدي</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-box">
-                        <i class="fas fa-stadium detail-icon"></i>
-                        <div class="detail-content">
-                            <h4>الملعب</h4>
-                            <p>مراكش</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 20px; background: #f8f9fa; padding: 12px; border-radius: 8px;">
-                    <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
-                    <span style="font-weight: bold; margin-right: 8px;">النتيجة النهائية: 3 - 1</span>
-                </div>
-                
-                <div style="text-align: center; margin-top: 15px;">
-                    <a href="#" class="watch-btn" style="background: #7f8c8d;"><i class="fas fa-play"></i> مشاهدة الأهداف</a>
-                </div>
-            </div>
-        </div>
+        <!-- المباريات سيتم إضافتها ديناميكياً بواسطة JavaScript -->
+        <div id="matches-list"></div>
     </div>
-    <script type='text/javascript' src='//pl27130835.profitableratecpm.com/e1/30/e5/e130e59cd573d04883b03f5a83ef841a.js'></script>
+
+    <script>
+        // بيانات المباريات
+        const matches = [
+            {
+                id: 1,
+                competition: "دوري أبطال أوروبا",
+                homeTeam: {
+                    name: "بايرن ميونخ",
+                    logo: "https://img.icons8.com/color/96/000000/fc-bayern-münchen.png"
+                },
+                awayTeam: {
+                    name: "باريس سان جيرمان",
+                    logo: "https://img.icons8.com/color/96/000000/paris-saint-germain.png"
+                },
+                date: "2023-05-15T21:00:00", // UTC time
+                stadium: "أليانز أرينا",
+                broadcaster: "beIN Sports HD 1",
+                commentator: "علي محمد علي",
+                status: "upcoming", // upcoming, live, finished
+                currentMinute: 0,
+                score: "0 - 0",
+                streamUrl: "#",
+                highlightsUrl: "#"
+            },
+            {
+                id: 2,
+                competition: "الدوري الإنجليزي",
+                homeTeam: {
+                    name: "مانشستر سيتي",
+                    logo: "https://img.icons8.com/color/96/000000/manchester-city.png"
+                },
+                awayTeam: {
+                    name: "ليفربول",
+                    logo: "https://img.icons8.com/color/96/000000/liverpool-fc.png"
+                },
+                date: "2023-05-18T18:30:00",
+                stadium: "الاتحاد",
+                broadcaster: "Sky Sports Premier League",
+                commentator: "محمد الشمراني",
+                status: "live",
+                currentMinute: 64,
+                score: "1 - 1",
+                streamUrl: "https://example.com/live-stream",
+                highlightsUrl: "#"
+            },
+            {
+                id: 3,
+                competition: "كأس العالم للأندية",
+                homeTeam: {
+                    name: "ريال مدريد",
+                    logo: "https://img.icons8.com/color/96/000000/real-madrid.png"
+                },
+                awayTeam: {
+                    name: "الهلال",
+                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png"
+                },
+                date: "2023-05-12T20:00:00",
+                stadium: "مراكش",
+                broadcaster: "MBC الرياضية",
+                commentator: "خالد الغامدي",
+                status: "finished",
+                currentMinute: 90,
+                score: "3 - 1",
+                streamUrl: "#",
+                highlightsUrl: "https://example.com/highlights"
+            }
+        ];
+
+        // متغير لتخزين المنطقة الزمنية المختارة
+        let selectedTimezone = 'auto';
+        let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        // عرض المباريات
+        function renderMatches() {
+            const matchesList = document.getElementById('matches-list');
+            matchesList.innerHTML = '';
+            
+            matches.forEach(match => {
+                const matchDate = new Date(match.date);
+                const now = new Date();
+                const timeDiff = matchDate - now;
+                
+                // تحديث حالة المباراة تلقائياً
+                if (match.status !== 'finished') {
+                    if (timeDiff <= 0 && timeDiff > -7200000) { // إذا كانت المباراة في وقتها أو خلال ساعتين من البدء
+                        match.status = 'live';
+                        if (match.currentMinute < 90) {
+                            match.currentMinute = Math.min(90, Math.floor((now - matchDate) / 60000));
+                        }
+                    } else if (timeDiff <= -7200000) { // إذا انتهت المباراة (أكثر من ساعتين من وقتها)
+                        match.status = 'finished';
+                        match.currentMinute = 90;
+                    }
+                }
+                
+                // تحديد المنطقة الزمنية المستخدمة
+                const timezoneToUse = selectedTimezone === 'auto' ? userTimezone : selectedTimezone;
+                
+                // تنسيق الوقت حسب المنطقة الزمنية المختارة
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    timeZone: timezoneToUse
+                };
+                
+                const formattedDate = matchDate.toLocaleDateString('ar-AR', options);
+                const timezoneName = getTimezoneName(timezoneToUse);
+                
+                // إنشاء بطاقة المباراة
+                let matchCard = document.createElement('div');
+                matchCard.className = 'match-card';
+                matchCard.innerHTML = `
+                    <div class="match-header">
+                        <span class="competition"><i class="fas fa-trophy"></i> ${match.competition}</span>
+                        <span class="match-status status-${match.status}">
+                            ${match.status === 'upcoming' ? 'قريبًا' : 
+                              match.status === 'live' ? 'مباشر الآن <i class="fas fa-circle" style="font-size: 10px;"></i>' : 'انتهت'}
+                        </span>
+                    </div>
+                    <div class="match-content">
+                        <div class="teams">
+                            <div class="team">
+                                <img src="${match.homeTeam.logo}" class="team-logo" alt="${match.homeTeam.name}">
+                                <span class="team-name">${match.homeTeam.name}</span>
+                            </div>
+                            <span class="vs">VS</span>
+                            <div class="team">
+                                <img src="${match.awayTeam.logo}" class="team-logo" alt="${match.awayTeam.name}">
+                                <span class="team-name">${match.awayTeam.name}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="match-time">
+                            <i class="far fa-clock"></i> ${formattedDate}
+                        </div>
+                        <div class="time-info">(توقيت ${timezoneName})</div>
+                        
+                        <div class="match-details">
+                            <div class="detail-box">
+                                <i class="fas fa-tv detail-icon"></i>
+                                <div class="detail-content">
+                                    <h4>القناة الناقلة</h4>
+                                    <p>${match.broadcaster}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-box">
+                                <i class="fas fa-microphone detail-icon"></i>
+                                <div class="detail-content">
+                                    <h4>المعلق</h4>
+                                    <p>${match.commentator}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-box">
+                                <i class="fas fa-stadium detail-icon"></i>
+                                <div class="detail-content">
+                                    <h4>الملعب</h4>
+                                    <p>${match.stadium}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            ${match.status === 'upcoming' ? 
+                                `<a href="#" class="watch-btn watch-reminder-btn" data-match-id="${match.id}"><i class="fas fa-bell"></i> تذكير بالمباراة</a>` : 
+                              match.status === 'live' ? 
+                                `<a href="${match.streamUrl}" class="watch-btn watch-live-btn"><i class="fas fa-play"></i> مشاهدة مباشرة</a>` : 
+                                `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn"><i class="fas fa-play"></i> مشاهدة الأهداف</a>`}
+                        </div>
+                    </div>
+                    ${match.status === 'live' ? `
+                    <div class="match-footer">
+                        <div class="live-minutes">
+                            <i class="fas fa-circle"></i> النتيجة: ${match.score}
+                        </div>
+                        <div>
+                            الدقيقة ${match.currentMinute}'
+                        </div>
+                    </div>
+                    ` : match.status === 'finished' ? `
+                    <div style="text-align: center; margin: 20px 25px; background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
+                        <span style="font-weight: bold; margin-right: 8px;">النتيجة النهائية: ${match.score}</span>
+                    </div>
+                    ` : ''}
+                `;
+                
+                matchesList.appendChild(matchCard);
+            });
+            
+            // إضافة أحداث للأزرار
+            addButtonEvents();
+        }
+        
+        // الحصول على اسم المنطقة الزمنية بطريقة مقروءة
+        function getTimezoneName(timezone) {
+            const timezoneNames = {
+                'Asia/Riyadh': 'المملكة العربية السعودية',
+                'Asia/Dubai': 'الإمارات العربية المتحدة',
+                'Africa/Cairo': 'مصر',
+                'Asia/Baghdad': 'العراق',
+                'Asia/Amman': 'الأردن',
+                'Europe/London': 'بريطانيا',
+                'Europe/Paris': 'فرنسا',
+                'America/New_York': 'الولايات المتحدة'
+            };
+            
+            return timezoneNames[timezone] || timezone;
+        }
+        
+        // إضافة أحداث للأزرار
+        function addButtonEvents() {
+            // تفعيل التذكير بالمباراة
+            document.querySelectorAll('.watch-reminder-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const matchId = this.getAttribute('data-match-id');
+                    const match = matches.find(m => m.id == matchId);
+                    
+                    if ('Notification' in window) {
+                        Notification.requestPermission().then(permission => {
+                            if (permission === 'granted') {
+                                alert(`تم تفعيل التذكير لمباراة ${match.homeTeam.name} vs ${match.awayTeam.name}!`);
+                                
+                                // حساب وقت التذكير (15 دقيقة قبل المباراة)
+                                const matchDate = new Date(match.date);
+                                const reminderTime = new Date(matchDate.getTime() - 15 * 60000);
+                                
+                                // إعداد التذكير
+                                const now = new Date();
+                                if (reminderTime > now) {
+                                    const timeout = reminderTime - now;
+                                    setTimeout(() => {
+                                        new Notification('تذكير بالمباراة', {
+                                            body: `مباراة ${match.homeTeam.name} vs ${match.awayTeam.name} ستبدأ بعد 15 دقيقة!`,
+                                            icon: match.homeTeam.logo
+                                        });
+                                    }, timeout);
+                                }
+                            } else {
+                                alert('يمكنك تفعيل التذكير بالمباراة من إعدادات المتصفح لاحقًا.');
+                            }
+                        });
+                    } else {
+                        alert('المتصفح لا يدعم نظام الإشعارات. نوصي باستخدام متصفح حديث مثل Chrome أو Firefox.');
+                    }
+                });
+            });
+            
+            // تأثير عند النقر على أي زر مشاهدة
+            document.querySelectorAll('.watch-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!this.getAttribute('href') || this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+        }
+        
+        // تحديث حالة المباريات كل دقيقة
+        function updateMatchesStatus() {
+            renderMatches();
+            setTimeout(updateMatchesStatus, 60000); // تحديث كل دقيقة
+        }
+        
+        // بدء التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديد المنطقة الزمنية التلقائية
+            const timezoneSelect = document.getElementById('timezone-select');
+            timezoneSelect.value = 'auto';
+            
+            // تغيير المنطقة الزمنية عند اختيار المستخدم
+            timezoneSelect.addEventListener('change', function() {
+                selectedTimezone = this.value;
+                renderMatches();
+            });
+            
+            renderMatches();
+            updateMatchesStatus();
+            
+            console.log('تم تحميل الصفحة بنجاح!');
+            console.log('المنطقة الزمنية للمستخدم:', userTimezone);
+        });
+    </script>
 </body>
 </html>
