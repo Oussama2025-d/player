@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول المباريات الاحترافي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --live-color: #e74c3c;
+            --finished-color: #27ae60;
+            --upcoming-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .matches-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header h1:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        .match-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .match-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .competition {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .competition i {
+            margin-left: 8px;
+            color: var(--secondary-color);
+        }
+        
+        .match-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .status-upcoming {
+            background: var(--upcoming-color);
+        }
+        
+        .status-live {
+            background: var(--live-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status-finished {
+            background: var(--finished-color);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .match-content {
+            padding: 25px;
+        }
+        
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
+        }
+        
+        .team-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .team:hover .team-logo {
+            transform: scale(1.1);
+        }
+        
+        .team-name {
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .vs {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0 15px;
+        }
+        
+        .match-time {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+        
+        .match-time i {
+            color: var(--secondary-color);
+            margin-left: 8px;
+        }
+        
+        .match-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .detail-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-icon {
+            color: var(--secondary-color);
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        
+        .detail-content h4 {
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+        }
+        
+        .detail-content p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .watch-btn {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .watch-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .match-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .teams {
+                flex-direction: column;
+            }
+            
+            .team {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .vs {
+                margin: 15px 0;
+            }
+            
+            .match-details {
+                flex-direction: column;
+            }
+            
+            .detail-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matches-container">
+        <div class="header">
+            <h1><i class="fas fa-calendar-alt"></i> جدول المباريات</h1>
+        </div>
+        
+        <!-- مباراة قادمة -->
+        <div class="match-card">
+            <div class="match-header">
+                <span class="competition"><i class="fas fa-trophy"></i> دوري أبطال أوروبا</span>
+                <span class="match-status status-upcoming">قريبًا</span>
+            </div>
+            <div class="match-content">
+                <div class="teams">
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/fc-bayern-münchen.png" class="team-logo" alt="بايرن ميونخ">
+                        <span class="team-name">بايرن ميونخ</span>
+                    </div>
+                    <span class="vs">VS</span>
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/paris-saint-germain.png" class="team-logo" alt="باريس سان جيرمان">
+                        <span class="team-name">باريس سان جيرمان</span>
+                    </div>
+                </div>
+                
+                <div class="match-time">
+                    <i class="far fa-clock"></i> الأربعاء 15 مايو 2023 - 21:00 بتوقيت مكة
+                </div>
+                
+                <div class="match-details">
+                    <div class="detail-box">
+                        <i class="fas fa-tv detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>القناة الناقلة</h4>
+                            <p>beIN Sports HD 1</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-microphone detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>المعلق</h4>
+                            <p>علي محمد علي</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-stadium detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>الملعب</h4>
+                            <p>أليانز أرينا</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="#" class="watch-btn"><i class="fas fa-bell"></i> تذكير بالمباراة</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مباراة جارية -->
+        <div class="match-card">
+            <div class="match-header">
+                <span class="competition"><i class="fas fa-trophy"></i> الدوري الإنجليزي</span>
+                <span class="match-status status-live">مباشر الآن <i class="fas fa-circle" style="font-size: 10px;"></i></span>
+            </div>
+            <div class="match-content">
+                <div class="teams">
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/manchester-city.png" class="team-logo" alt="مانشستر سيتي">
+                        <span class="team-name">مانشستر سيتي</span>
+                    </div>
+                    <span class="vs">VS</span>
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/liverpool-fc.png" class="team-logo" alt="ليفربول">
+                        <span class="team-name">ليفربول</span>
+                    </div>
+                </div>
+                
+                <div class="match-time">
+                    <i class="far fa-clock"></i> السبت 18 مايو 2023 - 18:30 بتوقيت مكة
+                </div>
+                
+                <div class="match-details">
+                    <div class="detail-box">
+                        <i class="fas fa-tv detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>القناة الناقلة</h4>
+                            <p>Sky Sports Premier League</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-microphone detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>المعلق</h4>
+                            <p>محمد الشمراني</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-stadium detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>الملعب</h4>
+                            <p>الاتحاد</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="#" class="watch-btn"><i class="fas fa-play"></i> مشاهدة مباشرة</a>
+                </div>
+            </div>
+            <div class="match-footer">
+                <div style="color: var(--live-color); font-weight: bold;">
+                    <i class="fas fa-circle" style="font-size: 10px;"></i> النتيجة: 1 - 1
+                </div>
+                <div style="color: #666;">
+                    الدقيقة 64'
+                </div>
+            </div>
+        </div>
+        
+        <!-- مباراة منتهية -->
+        <div class="match-card">
+            <div class="match-header">
+                <span class="competition"><i class="fas fa-trophy"></i> كأس العالم للأندية</span>
+                <span class="match-status status-finished">انتهت</span>
+            </div>
+            <div class="match-content">
+                <div class="teams">
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/real-madrid.png" class="team-logo" alt="ريال مدريد">
+                        <span class="team-name">ريال مدريد</span>
+                    </div>
+                    <span class="vs">VS</span>
+                    <div class="team">
+                        <img src="https://img.icons8.com/color/96/000000/al-hilal.png" class="team-logo" alt="الهلال">
+                        <span class="team-name">الهلال</span>
+                    </div>
+                </div>
+                
+                <div class="match-time">
+                    <i class="far fa-clock"></i> الجمعة 12 مايو 2023 - 20:00 بتوقيت مكة
+                </div>
+                
+                <div class="match-details">
+                    <div class="detail-box">
+                        <i class="fas fa-tv detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>القناة الناقلة</h4>
+                            <p>MBC الرياضية</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-microphone detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>المعلق</h4>
+                            <p>خالد الغامدي</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-box">
+                        <i class="fas fa-stadium detail-icon"></i>
+                        <div class="detail-content">
+                            <h4>الملعب</h4>
+                            <p>مراكش</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                    <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
+                    <span style="font-weight: bold; margin-right: 8px;">النتيجة النهائية: 3 - 1</span>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" class="watch-btn" style="background: #7f8c8d;"><i class="fas fa-play"></i> مشاهدة الأهداف</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
