@@ -8,17 +8,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1a1a2e;
-            --secondary-color: #4cc9f0;
-            --accent-color: #f72585;
-            --live-color: #f72585;
-            --finished-color: #4cc9f0;
-            --upcoming-color: #7209b7;
-            --dark-color: #16213e;
-            --light-color: #f8f9fa;
+            --primary-color: #0a192f;
+            --secondary-color: #64ffda;
+            --accent-color: #ff2d75;
+            --live-color: #ff2d75;
+            --finished-color: #64ffda;
+            --upcoming-color: #7b2cbf;
+            --dark-color: #112240;
+            --light-color: #e6f1ff;
             --card-bg: #ffffff;
             --text-color: #333333;
-            --text-light: #777777;
+            --text-light: #8892b0;
+            --gradient: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            --card-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         }
         
         * {
@@ -29,7 +31,7 @@
         
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #f8f9fa;
             color: var(--text-color);
             margin: 0;
             padding: 0;
@@ -50,12 +52,13 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 30px 0;
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            padding: 40px 0;
+            background: var(--gradient);
             border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             color: white;
             position: relative;
+            overflow: hidden;
         }
         
         .header::before {
@@ -66,20 +69,22 @@
             width: 100%;
             height: 100%;
             background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
-            opacity: 0.1;
+            opacity: 0.05;
             z-index: 0;
         }
         
         .header-content {
             position: relative;
             z-index: 1;
+            padding: 0 20px;
         }
         
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin: 0;
             font-weight: 700;
             color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
         .header h1 i {
@@ -88,12 +93,13 @@
         }
         
         .header p {
-            font-size: 1.1rem;
-            margin-top: 10px;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            margin-top: 15px;
+            color: var(--light-color);
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.8;
         }
         
         /* Timezone Selector */
@@ -108,7 +114,7 @@
         .custom-select {
             position: relative;
             display: inline-block;
-            min-width: 220px;
+            min-width: 240px;
         }
         
         .custom-select select {
@@ -120,17 +126,18 @@
             border-radius: 30px;
             padding: 12px 45px 12px 20px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
-            color: var(--text-color);
+            color: var(--primary-color);
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
+            transition: all 0.3s ease;
         }
         
         .custom-select select:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.3);
+            box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.3);
         }
         
         .custom-select::after {
@@ -148,34 +155,34 @@
         /* Match Cards */
         .matches-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .match-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: none;
         }
         
         .match-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
         }
         
         .match-card.live {
-            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.15);
+            box-shadow: 0 10px 30px -15px rgba(255, 45, 117, 0.3);
         }
         
         .match-header {
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            background: var(--gradient);
             color: white;
-            padding: 15px 20px;
+            padding: 18px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -185,23 +192,26 @@
         .competition {
             display: flex;
             align-items: center;
-            font-weight: 500;
-        }
-        
-        .competition i {
-            margin-left: 10px;
-            color: var(--secondary-color);
+            font-weight: 600;
             font-size: 16px;
         }
         
+        .competition i {
+            margin-left: 12px;
+            color: var(--secondary-color);
+            font-size: 18px;
+        }
+        
         .match-status {
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 30px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
-            min-width: 90px;
+            min-width: 100px;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .status-upcoming {
@@ -210,21 +220,23 @@
         
         .status-live {
             background: var(--live-color);
+            animation: pulse 2s infinite;
         }
         
         .status-finished {
             background: var(--finished-color);
+            color: var(--dark-color);
         }
         
         .match-content {
-            padding: 20px;
+            padding: 25px;
         }
         
         .teams {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .team {
@@ -235,28 +247,34 @@
         }
         
         .team-logo-container {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            border: 2px solid #f8f9fa;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #f8f9fa;
+            transition: transform 0.3s ease;
+        }
+        
+        .match-card:hover .team-logo-container {
+            transform: scale(1.05);
         }
         
         .team-logo {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
         }
         
         .team-name {
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
-            font-size: 16px;
+            font-size: 17px;
+            color: var(--primary-color);
         }
         
         .vs-container {
@@ -268,57 +286,65 @@
         
         .match-time {
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            padding: 8px 15px;
+            padding: 10px 18px;
             border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 15px;
             color: var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
         
         .match-time i {
-            margin-left: 8px;
+            margin-left: 10px;
             color: var(--secondary-color);
         }
         
         .score {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: var(--primary-color);
-            margin: 8px 0;
+            margin: 10px 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         
         .time-info {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-light);
             text-align: center;
+            font-weight: 500;
         }
         
         .match-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-            padding-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
             border-top: 1px dashed rgba(0, 0, 0, 0.1);
         }
         
         .detail-box {
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 15px;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .detail-box:hover {
+            transform: translateY(-3px);
         }
         
         .detail-icon {
             color: var(--secondary-color);
-            font-size: 20px;
-            margin-left: 12px;
-            width: 36px;
-            height: 36px;
-            background: rgba(76, 201, 240, 0.1);
+            font-size: 22px;
+            margin-left: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(100, 255, 218, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -326,23 +352,25 @@
         }
         
         .detail-content h4 {
-            margin: 0 0 4px 0;
+            margin: 0 0 5px 0;
             color: var(--primary-color);
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
         }
         
         .detail-content p {
             margin: 0;
             color: var(--text-light);
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 500;
         }
         
         .action-buttons {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 25px;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 15px;
         }
         
         .watch-btn {
@@ -350,118 +378,151 @@
             align-items: center;
             justify-content: center;
             background: var(--secondary-color);
-            color: white;
-            padding: 10px 24px;
+            color: var(--dark-color);
+            padding: 12px 28px;
             border-radius: 30px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            font-size: 15px;
-            box-shadow: 0 3px 10px rgba(76, 201, 240, 0.2);
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
             border: none;
             cursor: pointer;
+            min-width: 180px;
         }
         
         .watch-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(100, 255, 218, 0.4);
         }
         
         .watch-btn i {
-            margin-left: 8px;
-            font-size: 14px;
+            margin-left: 10px;
+            font-size: 15px;
         }
         
         .watch-live-btn {
             background: var(--live-color);
-            box-shadow: 0 3px 10px rgba(247, 37, 133, 0.2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
         }
         
         .watch-live-btn:hover {
-            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
         }
         
         .watch-highlights-btn {
             background: var(--finished-color);
+            color: var(--dark-color);
         }
         
         .watch-reminder-btn {
             background: var(--upcoming-color);
+            color: white;
         }
         
         .match-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+            padding: 15px 25px;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .live-minutes {
             color: var(--live-color);
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            font-size: 14px;
+            font-size: 15px;
         }
         
         .live-minutes i {
-            margin-left: 6px;
-            font-size: 8px;
+            margin-left: 8px;
+            font-size: 10px;
+            animation: pulse 1.5s infinite;
         }
         
         /* Match Events */
         .match-events {
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 1px dashed rgba(0, 0, 0, 0.1);
         }
         
         .event-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            padding: 6px 10px;
-            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
             background: rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease;
+        }
+        
+        .event-item:hover {
+            transform: translateX(5px);
+            background: rgba(100, 255, 218, 0.05);
         }
         
         .event-time {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-color);
-            margin-left: 8px;
-            min-width: 28px;
+            margin-left: 10px;
+            min-width: 30px;
         }
         
         .event-icon {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 8px;
+            margin-left: 10px;
             color: var(--accent-color);
         }
         
         .event-text {
             flex: 1;
-            font-size: 14px;
+            font-size: 15px;
         }
         
         /* Footer Styles */
         .footer {
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            background: var(--gradient);
             color: white;
-            padding: 40px 0 25px;
+            padding: 50px 0 30px;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         .footer-logo {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         .footer-logo span {
@@ -470,57 +531,61 @@
         
         .footer-description {
             max-width: 700px;
-            margin: 0 auto 25px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
+            margin: 0 auto 30px;
+            color: var(--light-color);
+            font-size: 16px;
+            line-height: 1.8;
         }
         
         .social-links {
             display: flex;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         .social-link {
             color: white;
-            font-size: 18px;
-            margin: 0 10px;
-            width: 42px;
-            height: 42px;
+            font-size: 20px;
+            margin: 0 12px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.1);
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .social-link:hover {
             background: var(--secondary-color);
+            color: var(--dark-color);
+            transform: translateY(-3px);
         }
         
         .footer-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         .footer-link {
-            color: rgba(255, 255, 255, 0.8);
-            margin: 0 12px;
+            color: var(--light-color);
+            margin: 0 15px;
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
         
         .footer-link:hover {
-            color: white;
+            color: var(--secondary-color);
         }
         
         .copyright {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
         }
         
         /* Loading Overlay */
@@ -530,50 +595,58 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--gradient);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             border-top-color: var(--secondary-color);
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .loading-text {
             color: white;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: 500;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
         /* Ribbon */
         .ribbon {
             position: absolute;
-            top: 12px;
-            left: -30px;
-            width: 110px;
-            height: 28px;
+            top: 15px;
+            left: -35px;
+            width: 120px;
+            height: 32px;
             background: var(--accent-color);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 13px;
+            font-weight: 700;
+            font-size: 14px;
             transform: rotate(-45deg);
             z-index: 1;
+            box-shadow: 0 3px 10px rgba(255, 45, 117, 0.3);
         }
         
         /* Responsive Styles */
@@ -585,24 +658,34 @@
         
         @media (max-width: 992px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .header p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .timezone-selector {
                 position: static;
                 transform: none;
-                margin: 15px auto;
+                margin: 20px auto;
                 width: fit-content;
+            }
+            
+            .team-logo-container {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .team-logo {
+                width: 60px;
+                height: 60px;
             }
         }
         
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.7rem;
+                font-size: 1.8rem;
             }
             
             .matches-grid {
@@ -620,17 +703,22 @@
             }
             
             .score {
-                font-size: 24px;
+                font-size: 28px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
             }
         }
         
         @media (max-width: 576px) {
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
             .header p {
-                display: none;
+                font-size: 1rem;
             }
             
             .action-buttons {
@@ -640,6 +728,10 @@
             
             .watch-btn {
                 width: 100%;
+            }
+            
+            .match-details {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -688,6 +780,8 @@
             <div class="social-links">
                 <a href="https://facebook.com/yourpage" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://instagram.com/yourprofile" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/yourprofile" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/yourchannel" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
             
             <div class="footer-links">
@@ -700,13 +794,13 @@
             </div>
             
             <div class="copyright">
-                &copy; 2025 OUSSAMA ABOUELHAMAM. جميع الحقوق محفوظة.
+                &copy; 2025 OSM LIVE. جميع الحقوق محفوظة.
             </div>
         </div>
     </footer>
 
     <script>
-        // بيانات المباريات
+        // بيانات المباريات المصححة
         const matches = [
             {
                 id: 1,
@@ -722,9 +816,9 @@
                     shortName: "مالي"
                 },
                 date: "2025-07-11T20:00:00",
-                stadium: "المغرب",
+                stadium: "ملعب الأمير مولاي عبد الله، الرباط",
                 broadcaster: "beIN SPORTS 3",
-                commentator: " أحمد عبده",
+                commentator: "أحمد عبده",
                 status: "upcoming",
                 currentMinute: 0,
                 score: "0 - 0",
@@ -747,9 +841,9 @@
                     shortName: "جنوب أفريقيا"
                 },
                 date: "2025-07-11T20:00:00",
-                stadium: "المغرب",
+                stadium: "ملعب مراكش، مراكش",
                 broadcaster: "beIN SPORTS 3",
-                commentator: " جواد بدة",
+                commentator: "جواد بدة",
                 status: "live",
                 currentMinute: 64,
                 score: "1 - 1",
@@ -769,6 +863,40 @@
         let selectedTimezone = 'auto';
         let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+        // دالة محسنة لتحديث حالة المباراة
+        function updateMatchStatus(match) {
+            const matchDate = new Date(match.date);
+            const now = new Date();
+            const timeDiff = matchDate - now;
+            const matchDuration = 120 * 60 * 1000; // 120 دقيقة كحد أقصى للمباراة
+
+            if (match.status === 'finished') {
+                return; // لا نغير حالة المباريات المنتهية
+            }
+
+            if (timeDiff > 0) {
+                // المباراة لم تبدأ بعد
+                match.status = 'upcoming';
+                match.currentMinute = 0;
+                match.score = "0 - 0"; // التأكد من أن النتيجة 0-0 قبل البدء
+            } else if (timeDiff <= 0 && timeDiff > -matchDuration) {
+                // المباراة جارية
+                match.status = 'live';
+                const minutesPassed = Math.floor((now - matchDate) / 60000);
+                match.currentMinute = Math.min(120, Math.max(0, minutesPassed));
+                
+                // إذا كانت الدقيقة 0 أو أقل، نعتبرها لم تبدأ بعد
+                if (match.currentMinute <= 0) {
+                    match.status = 'upcoming';
+                    match.score = "0 - 0";
+                }
+            } else {
+                // المباراة انتهت
+                match.status = 'finished';
+                match.currentMinute = 90;
+            }
+        }
+
         // عرض المباريات
         function renderMatches() {
             const matchesList = document.getElementById('matches-list');
@@ -783,23 +911,9 @@
                 return new Date(a.date) - new Date(b.date);
             });
             
-            sortedMatches.forEach((match, index) => {
-                const matchDate = new Date(match.date);
-                const now = new Date();
-                const timeDiff = matchDate - now;
-                
-                // تحديث حالة المباراة تلقائياً
-                if (match.status !== 'finished') {
-                    if (timeDiff <= 0 && timeDiff > -7200000) {
-                        match.status = 'live';
-                        if (match.currentMinute < 90) {
-                            match.currentMinute = Math.min(90, Math.floor((now - matchDate) / 60000));
-                        }
-                    } else if (timeDiff <= -7200000) {
-                        match.status = 'finished';
-                        match.currentMinute = 90;
-                    }
-                }
+            sortedMatches.forEach((match) => {
+                // تحديث حالة المباراة قبل العرض
+                updateMatchStatus(match);
                 
                 // تحديد المنطقة الزمنية المستخدمة
                 const timezoneToUse = selectedTimezone === 'auto' ? userTimezone : selectedTimezone;
@@ -815,7 +929,7 @@
                     timeZone: timezoneToUse
                 };
                 
-                const formattedDate = matchDate.toLocaleDateString('ar-AR', options);
+                const formattedDate = new Date(match.date).toLocaleDateString('ar-AR', options);
                 const timezoneName = getTimezoneName(timezoneToUse);
                 
                 // إنشاء بطاقة المباراة
@@ -827,50 +941,8 @@
                 
                 // إنشاء عناصر الأحداث
                 let eventsHtml = '';
-                if (match.events.length > 0) {
-                    eventsHtml = `<div class="match-events">
-                        <h4 style="color: var(--primary-color); margin-bottom: 12px; text-align: center; font-size: 15px;">
-                            <i class="fas fa-list-alt" style="margin-left: 8px;"></i>أحداث المباراة
-                        </h4>`;
-                    
-                    match.events.forEach(event => {
-                        let eventIcon = '';
-                        let eventColor = '';
-                        
-                        switch(event.type) {
-                            case 'goal':
-                                eventIcon = 'fas fa-futbol';
-                                eventColor = 'var(--finished-color)';
-                                break;
-                            case 'yellow-card':
-                                eventIcon = 'fas fa-square yellow-card';
-                                eventColor = 'var(--upcoming-color)';
-                                break;
-                            case 'red-card':
-                                eventIcon = 'fas fa-square red-card';
-                                eventColor = 'var(--live-color)';
-                                break;
-                            case 'substitution':
-                                eventIcon = 'fas fa-exchange-alt';
-                                eventColor = 'var(--secondary-color)';
-                                break;
-                            default:
-                                eventIcon = 'fas fa-info-circle';
-                                eventColor = 'var(--text-light)';
-                        }
-                        
-                        eventsHtml += `<div class="event-item">
-                            <div class="event-time">${event.time}'</div>
-                            <div class="event-icon" style="color: ${eventColor}">
-                                <i class="${eventIcon}"></i>
-                            </div>
-                            <div class="event-text">
-                                <strong>${event.player}</strong> - ${event.description}
-                            </div>
-                        </div>`;
-                    });
-                    
-                    eventsHtml += `</div>`;
+                if (match.events.length > 0 && match.status !== 'upcoming') {
+                    eventsHtml = createEventsHtml(match.events);
                 }
                 
                 matchCard.innerHTML = `
@@ -908,7 +980,7 @@
                         </div>
                         
                         ${match.status === 'live' ? `
-                        <div style="height: 4px; background: rgba(0,0,0,0.05); border-radius: 2px; margin: 15px 0; overflow: hidden;">
+                        <div style="height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; margin: 20px 0; overflow: hidden;">
                             <div style="height: 100%; background: var(--live-color); width: ${(match.currentMinute / 90) * 100}%;"></div>
                         </div>
                         ` : ''}
@@ -948,39 +1020,10 @@
                         ${eventsHtml}
                         
                         <div class="action-buttons">
-                            ${match.status === 'upcoming' ? 
-                                `<button class="watch-btn watch-reminder-btn" data-match-id="${match.id}">
-                                    <i class="fas fa-bell"></i> تذكير بالمباراة
-                                </button>` : 
-                              match.status === 'live' ? 
-                                `<a href="${match.streamUrl}" class="watch-btn watch-live-btn">
-                                    <i class="fas fa-play"></i> مشاهدة مباشرة
-                                </a>` : 
-                                `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn">
-                                    <i class="fas fa-play"></i> مشاهدة الأهداف
-                                </a>`}
-                                
-                            ${match.status === 'live' || match.status === 'finished' ? 
-                                `<button class="watch-btn" style="background: var(--primary-color);" data-match-id="${match.id}">
-                                    <i class="fas fa-chart-bar"></i> الإحصائيات
-                                </button>` : ''}
+                            ${createActionButtons(match)}
                         </div>
                     </div>
-                    ${match.status === 'live' ? `
-                    <div class="match-footer">
-                        <div class="live-minutes">
-                            <i class="fas fa-circle"></i> النتيجة الحالية: ${match.score}
-                        </div>
-                        <div>
-                            الدقيقة ${match.currentMinute}'
-                        </div>
-                    </div>
-                    ` : match.status === 'finished' ? `
-                    <div style="text-align: center; margin: 15px 20px; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); padding: 10px; border-radius: 6px;">
-                        <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
-                        <span style="font-weight: 600; margin-right: 6px;">النتيجة النهائية: ${match.score}</span>
-                    </div>
-                    ` : ''}
+                    ${createMatchFooter(match)}
                 `;
                 
                 matchesList.appendChild(matchCard);
@@ -989,7 +1032,98 @@
             // إضافة أحداث للأزرار
             addButtonEvents();
         }
-        
+
+        // دالة مساعدة لإنشاء HTML للأحداث
+        function createEventsHtml(events) {
+            let eventsHtml = `<div class="match-events">
+                <h4 style="color: var(--primary-color); margin-bottom: 15px; text-align: center; font-size: 16px;">
+                    <i class="fas fa-list-alt" style="margin-left: 8px;"></i>أحداث المباراة
+                </h4>`;
+            
+            events.forEach(event => {
+                let eventIcon = '';
+                let eventColor = '';
+                
+                switch(event.type) {
+                    case 'goal':
+                        eventIcon = 'fas fa-futbol';
+                        eventColor = 'var(--finished-color)';
+                        break;
+                    case 'yellow-card':
+                        eventIcon = 'fas fa-square yellow-card';
+                        eventColor = 'var(--upcoming-color)';
+                        break;
+                    case 'red-card':
+                        eventIcon = 'fas fa-square red-card';
+                        eventColor = 'var(--live-color)';
+                        break;
+                    case 'substitution':
+                        eventIcon = 'fas fa-exchange-alt';
+                        eventColor = 'var(--secondary-color)';
+                        break;
+                    default:
+                        eventIcon = 'fas fa-info-circle';
+                        eventColor = 'var(--text-light)';
+                }
+                
+                eventsHtml += `<div class="event-item">
+                    <div class="event-time">${event.time}'</div>
+                    <div class="event-icon" style="color: ${eventColor}">
+                        <i class="${eventIcon}"></i>
+                    </div>
+                    <div class="event-text">
+                        <strong>${event.player}</strong> - ${event.description}
+                    </div>
+                </div>`;
+            });
+            
+            eventsHtml += `</div>`;
+            return eventsHtml;
+        }
+
+        // دالة مساعدة لإنشاء أزرار التحكم
+        function createActionButtons(match) {
+            if (match.status === 'upcoming') {
+                return `<button class="watch-btn watch-reminder-btn" data-match-id="${match.id}">
+                    <i class="fas fa-bell"></i> تذكير بالمباراة
+                </button>`;
+            } else if (match.status === 'live') {
+                return `<a href="${match.streamUrl}" class="watch-btn watch-live-btn">
+                    <i class="fas fa-play"></i> مشاهدة مباشرة
+                </a>
+                <button class="watch-btn" style="background: var(--primary-color); color: white;" data-match-id="${match.id}">
+                    <i class="fas fa-chart-bar"></i> الإحصائيات
+                </button>`;
+            } else {
+                return `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn">
+                    <i class="fas fa-play"></i> مشاهدة الأهداف
+                </a>
+                <button class="watch-btn" style="background: var(--primary-color); color: white;" data-match-id="${match.id}">
+                    <i class="fas fa-chart-bar"></i> الإحصائيات
+                </button>`;
+            }
+        }
+
+        // دالة مساعدة لإنشاء تذييل بطاقة المباراة
+        function createMatchFooter(match) {
+            if (match.status === 'live') {
+                return `<div class="match-footer">
+                    <div class="live-minutes">
+                        <i class="fas fa-circle"></i> النتيجة الحالية: ${match.score}
+                    </div>
+                    <div>
+                        الدقيقة ${match.currentMinute}'
+                    </div>
+                </div>`;
+            } else if (match.status === 'finished') {
+                return `<div style="text-align: center; margin: 20px; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); padding: 12px; border-radius: 8px;">
+                    <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
+                    <span style="font-weight: 700; margin-right: 8px;">النتيجة النهائية: ${match.score}</span>
+                </div>`;
+            }
+            return '';
+        }
+
         // الحصول على اسم المنطقة الزمنية بطريقة مقروءة
         function getTimezoneName(timezone) {
             const timezoneNames = {
@@ -1018,7 +1152,32 @@
                     if ('Notification' in window) {
                         Notification.requestPermission().then(permission => {
                             if (permission === 'granted') {
-                                alert(`تم تفعيل التذكير لمباراة ${match.homeTeam.shortName} vs ${match.awayTeam.shortName}!`);
+                                // عرض إشعار تأكيد
+                                const notification = document.createElement('div');
+                                notification.style.position = 'fixed';
+                                notification.style.bottom = '20px';
+                                notification.style.right = '20px';
+                                notification.style.backgroundColor = 'var(--upcoming-color)';
+                                notification.style.color = 'white';
+                                notification.style.padding = '15px 25px';
+                                notification.style.borderRadius = '8px';
+                                notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                                notification.style.zIndex = '1000';
+                                notification.style.display = 'flex';
+                                notification.style.alignItems = 'center';
+                                notification.innerHTML = `
+                                    <i class="fas fa-check-circle" style="margin-left: 10px; font-size: 20px;"></i>
+                                    <span>تم تفعيل التذكير لمباراة ${match.homeTeam.shortName} vs ${match.awayTeam.shortName}</span>
+                                `;
+                                document.body.appendChild(notification);
+                                
+                                // إخفاء الإشعار بعد 3 ثواني
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                    setTimeout(() => {
+                                        document.body.removeChild(notification);
+                                    }, 300);
+                                }, 3000);
                                 
                                 // حساب وقت التذكير (15 دقيقة قبل المباراة)
                                 const matchDate = new Date(match.date);
