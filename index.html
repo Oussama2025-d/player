@@ -5,132 +5,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSM LIVE - بث مباشر</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --live-color: #e74c3c;
-            --finished-color: #27ae60;
-            --upcoming-color: #f39c12;
-            --dark-color: #1a252f;
+            --primary-color: #1a1a2e;
+            --secondary-color: #4cc9f0;
+            --accent-color: #f72585;
+            --live-color: #f72585;
+            --finished-color: #4cc9f0;
+            --upcoming-color: #7209b7;
+            --dark-color: #16213e;
             --light-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #777777;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         
         body {
-            font-family: 'Tajawal', Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
         }
         
         .matches-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             flex: 1;
+            position: relative;
+            overflow: hidden;
         }
         
+        /* Header Styles */
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             position: relative;
-            padding: 20px 0;
+            padding: 30px 0;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            color: white;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
         
         .header h1 {
-            color: var(--primary-color);
             position: relative;
             display: inline-block;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin: 0;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
-        .header h1:after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--secondary-color);
+        .header h1 i {
+            margin-left: 15px;
+            color: var(--secondary-color);
         }
         
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Timezone Selector */
         .timezone-selector {
             position: absolute;
-            left: 20px;
+            left: 30px;
             top: 50%;
             transform: translateY(-50%);
-            background: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 1px solid #ddd;
+            z-index: 2;
+        }
+        
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            min-width: 220px;
+        }
+        
+        .custom-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 30px;
+            padding: 12px 45px 12px 20px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .custom-select select:focus {
+            outline: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .custom-select::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            pointer-events: none;
             transition: all 0.3s ease;
         }
         
-        .timezone-selector:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        .custom-select:hover::after {
+            color: var(--accent-color);
         }
         
-        .timezone-selector select {
-            border: none;
-            background: transparent;
-            font-family: 'Tajawal', Arial, sans-serif;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-            padding: 5px;
-            min-width: 200px;
+        /* Match Cards */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .match-card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 25px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .match-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .match-card.live {
+            animation: pulseShadow 2s infinite alternate;
+        }
+        
+        @keyframes pulseShadow {
+            0% {
+                box-shadow: 0 10px 30px rgba(247, 37, 133, 0.1);
+            }
+            100% {
+                box-shadow: 0 10px 40px rgba(247, 37, 133, 0.3);
+            }
         }
         
         .match-header {
-            background: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
-            padding: 12px 20px;
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .match-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
         }
         
         .competition {
             display: flex;
             align-items: center;
             font-weight: bold;
+            position: relative;
+            z-index: 1;
         }
         
         .competition i {
-            margin-left: 8px;
+            margin-left: 10px;
             color: var(--secondary-color);
+            font-size: 18px;
         }
         
         .match-status {
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 6px 18px;
+            border-radius: 30px;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
             color: white;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
         }
         
         .status-upcoming {
@@ -147,170 +262,273 @@
         }
         
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .match-content {
             padding: 25px;
+            position: relative;
         }
         
         .teams {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
         
         .team {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 30%;
+            width: 35%;
+            transition: all 0.3s ease;
+        }
+        
+        .team:hover {
+            transform: scale(1.05);
+        }
+        
+        .team-logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #f8f9fa;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team:hover .team-logo-container {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary-color);
         }
         
         .team-logo {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            margin-bottom: 10px;
             transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
-        }
-        
-        .team:hover .team-logo {
-            transform: scale(1.1);
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
         }
         
         .team-name {
             font-weight: bold;
             text-align: center;
             font-size: 18px;
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
         
-        .vs {
-            font-size: 24px;
-            font-weight: bold;
+        .team:hover .team-name {
             color: var(--primary-color);
-            margin: 0 15px;
+        }
+        
+        .vs-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
             position: relative;
         }
         
-        .vs:before, .vs:after {
-            content: "";
-            position: absolute;
-            height: 2px;
-            width: 40px;
-            background: var(--secondary-color);
-            top: 50%;
-        }
-        
-        .vs:before {
-            right: -50px;
-        }
-        
-        .vs:after {
-            left: -50px;
-        }
-        
         .match-time {
-            text-align: center;
-            margin: 15px 0;
-            font-size: 18px;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
         }
         
         .match-time i {
-            color: var(--secondary-color);
             margin-left: 8px;
+            color: var(--secondary-color);
+        }
+        
+        .score {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin: 10px 0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .score::before, .score::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        
+        .score::before {
+            right: -40px;
+        }
+        
+        .score::after {
+            left: -40px;
         }
         
         .time-info {
             font-size: 14px;
-            color: #666;
+            color: var(--text-light);
             text-align: center;
             margin-top: 5px;
         }
         
         .match-details {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed #ddd;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
         }
         
         .detail-box {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 8px;
-            min-width: 200px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-radius: 10px;
+            padding: 15px;
             display: flex;
             align-items: center;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
         
         .detail-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background: white;
         }
         
         .detail-icon {
             color: var(--secondary-color);
-            font-size: 20px;
-            margin-left: 10px;
+            font-size: 24px;
+            margin-left: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
         
         .detail-content h4 {
             margin: 0 0 5px 0;
             color: var(--primary-color);
+            font-size: 15px;
         }
         
         .detail-content p {
             margin: 0;
-            color: #666;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
         .watch-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--secondary-color);
             color: white;
             padding: 12px 30px;
-            border-radius: 5px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: none;
             cursor: pointer;
             font-size: 16px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .watch-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .watch-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .watch-btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .watch-btn:hover i {
+            transform: translateX(-5px);
         }
         
         .watch-btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(76, 201, 240, 0.4);
+        }
+        
+        .watch-btn:active {
+            transform: translateY(0);
         }
         
         .watch-live-btn {
             background: var(--live-color);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+        }
+        
+        .watch-live-btn:hover {
+            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.4);
         }
         
         .watch-highlights-btn {
-            background: #7f8c8d;
+            background: var(--finished-color);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+        
+        .watch-highlights-btn:hover {
+            box-shadow: 0 8px 20px rgba(76, 201, 240, 0.4);
         }
         
         .watch-reminder-btn {
             background: var(--upcoming-color);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
+        }
+        
+        .watch-reminder-btn:hover {
+            box-shadow: 0 8px 20px rgba(114, 9, 183, 0.4);
         }
         
         .match-footer {
@@ -318,8 +536,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 25px;
-            background: #f8f9fa;
-            border-top: 1px solid #eee;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .live-minutes {
@@ -327,21 +545,97 @@
             font-weight: bold;
             display: flex;
             align-items: center;
+            font-size: 16px;
         }
         
         .live-minutes i {
-            margin-left: 5px;
+            margin-left: 8px;
             font-size: 10px;
             animation: pulse 1.5s infinite;
         }
         
+        .match-timeline {
+            height: 4px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background: var(--live-color);
+            width: 0%;
+            transition: width 1s linear;
+            border-radius: 2px;
+        }
+        
+        /* Match Events */
+        .match-events {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .event-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .event-time {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-left: 10px;
+            min-width: 30px;
+        }
+        
+        .event-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            color: var(--accent-color);
+        }
+        
+        .event-text {
+            flex: 1;
+        }
+        
         /* Footer Styles */
         .footer {
-            background: var(--dark-color);
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
-            padding: 30px 0;
+            padding: 50px 0 30px;
             text-align: center;
-            margin-top: 40px;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.05;
+            z-index: 0;
         }
         
         .footer-content {
@@ -350,118 +644,239 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary-color);
+        }
+        
+        .footer-description {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
         }
         
         .social-links {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
         
         .social-link {
             color: white;
-            font-size: 24px;
-            margin: 0 15px;
-            transition: all 0.3s ease;
+            font-size: 20px;
+            margin: 0 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 50px;
             height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .social-link:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.1);
             background: var(--secondary-color);
             color: white;
+            box-shadow: 0 10px 25px rgba(76, 201, 240, 0.3);
         }
         
         .footer-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
         .footer-link {
-            color: #bbb;
+            color: rgba(255, 255, 255, 0.8);
             margin: 0 15px;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .footer-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.3s ease;
         }
         
         .footer-link:hover {
             color: white;
         }
         
+        .footer-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
         .copyright {
-            color: #777;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         
-        /* Improved Timezone Selector */
-        .custom-select {
-            position: relative;
-            display: inline-block;
+        /* Floating Notification */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            color: var(--text-color);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
-        .custom-select select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            padding-right: 30px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left 10px center;
-            background-size: 12px;
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification i {
+            margin-left: 10px;
+            font-size: 24px;
+            color: var(--secondary-color);
+        }
+        
+        .notification.success i {
+            color: var(--finished-color);
+        }
+        
+        .notification.error i {
+            color: var(--live-color);
+        }
+        
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--secondary-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .matches-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+        
         @media (max-width: 992px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+                padding: 0 20px;
             }
             
             .timezone-selector {
                 position: static;
                 transform: none;
-                margin: 15px auto;
-                width: fit-content;
+                margin: 20px auto;
                 display: block;
+                width: fit-content;
+            }
+            
+            .team-logo-container {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .team-logo {
+                width: 60px;
+                height: 60px;
             }
         }
         
         @media (max-width: 768px) {
             .header {
-                padding-top: 20px;
+                padding: 20px 0;
             }
             
-            .teams {
-                flex-direction: column;
+            .header h1 {
+                font-size: 1.8rem;
             }
             
-            .team {
-                width: 100%;
-                margin-bottom: 15px;
+            .matches-grid {
+                grid-template-columns: 1fr;
             }
             
-            .vs {
-                margin: 15px 0;
+            .team-logo-container {
+                width: 70px;
+                height: 70px;
             }
             
-            .vs:before, .vs:after {
-                display: none;
+            .team-logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .score {
+                font-size: 28px;
             }
             
             .match-details {
-                flex-direction: column;
-            }
-            
-            .detail-box {
-                width: 100%;
+                grid-template-columns: 1fr;
             }
             
             .footer-links {
@@ -469,45 +884,149 @@
             }
             
             .footer-link {
-                margin: 5px 0;
+                margin: 8px 0;
             }
         }
         
-        /* Animation for new matches */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header p {
+                display: none;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .watch-btn {
+                width: 100%;
+            }
+            
+            .notification {
+                right: 15px;
+                left: 15px;
+                bottom: 15px;
+                max-width: calc(100% - 30px);
+            }
         }
         
-        .match-card {
-            animation: fadeIn 0.5s ease-out;
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+        
+        /* Floating Live Badge */
+        .live-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--live-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .live-badge i {
+            margin-left: 5px;
+            font-size: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Match Card Ribbon */
+        .ribbon {
+            position: absolute;
+            top: 15px;
+            left: -30px;
+            width: 120px;
+            height: 30px;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            transform: rotate(-45deg);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">جاري تحميل المباريات...</div>
+    </div>
+
     <div class="matches-container">
         <div class="header">
-            <div class="timezone-selector custom-select">
-                <select id="timezone-select">
-                    <option value="auto">التوقيت التلقائي (حسب موقعك)</option>
-                    <option value="Asia/Riyadh">المملكة العربية السعودية (توقيت الرياض)</option>
-                    <option value="Asia/Dubai">الإمارات العربية المتحدة (توقيت دبي)</option>
-                    <option value="Africa/Cairo">مصر (توقيت القاهرة)</option>
-                    <option value="Asia/Baghdad">العراق (توقيت بغداد)</option>
-                    <option value="Asia/Amman">الأردن (توقيت عمان)</option>
-                    <option value="Europe/London">بريطانيا (توقيت لندن)</option>
-                    <option value="Europe/Paris">فرنسا (توقيت باريس)</option>
-                    <option value="America/New_York">الولايات المتحدة (توقيت نيويورك)</option>
-                </select>
+            <div class="timezone-selector">
+                <div class="custom-select">
+                    <select id="timezone-select">
+                        <option value="auto">التوقيت التلقائي (حسب موقعك)</option>
+                        <option value="Asia/Riyadh">المملكة العربية السعودية (توقيت الرياض)</option>
+                        <option value="Asia/Dubai">الإمارات العربية المتحدة (توقيت دبي)</option>
+                        <option value="Africa/Cairo">مصر (توقيت القاهرة)</option>
+                        <option value="Asia/Baghdad">العراق (توقيت بغداد)</option>
+                        <option value="Asia/Amman">الأردن (توقيت عمان)</option>
+                        <option value="Europe/London">بريطانيا (توقيت لندن)</option>
+                        <option value="Europe/Paris">فرنسا (توقيت باريس)</option>
+                        <option value="America/New_York">الولايات المتحدة (توقيت نيويورك)</option>
+                    </select>
+                </div>
             </div>
-            <h1><i class="fas fa-calendar-alt"></i> OSM LIVE</h1>
+            <div class="header-content">
+                <h1><i class="fas fa-futbol"></i> OSM LIVE</h1>
+                <p>تابع أهم المباريات مباشرة وبجودة عالية مع أحدث النتائج والتعليقات والتحليلات</p>
+            </div>
         </div>
         
-        <div id="matches-list"></div>
+        <div id="matches-list" class="matches-grid"></div>
     </div>
 
     <footer class="footer">
         <div class="footer-content">
+            <div class="footer-logo">OSM<span>LIVE</span></div>
+            <p class="footer-description">
+                منصة OSM LIVE تقدم بث مباشر لأهم المباريات حول العالم مع أحدث النتائج والإحصائيات والتحليلات الفنية.
+                تابع معنا كل ما هو جديد في عالم كرة القدم.
+            </p>
+            
             <div class="social-links">
                 <a href="https://facebook.com/yourpage" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://twitter.com/yourhandle" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -520,6 +1039,7 @@
                 <a href="#" class="footer-link">الصفحة الرئيسية</a>
                 <a href="#" class="footer-link">المباريات القادمة</a>
                 <a href="#" class="footer-link">القنوات الناقلة</a>
+                <a href="#" class="footer-link">البطولات</a>
                 <a href="#" class="footer-link">عن الموقع</a>
                 <a href="#" class="footer-link">اتصل بنا</a>
                 <a href="#" class="footer-link">شروط الاستخدام</a>
@@ -532,71 +1052,156 @@
         </div>
     </footer>
 
+    <!-- Notification Element -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message">تم تفعيل التذكير بنجاح!</span>
+    </div>
+
     <script>
-        // بيانات المباريات
+        // بيانات المباريات المحسنة
         const matches = [
             {
                 id: 1,
-                competition: "دوري أبطال أوروبا",
+                competition: "دوري أبطال أوروبا - نصف النهائي",
                 homeTeam: {
                     name: "بايرن ميونخ",
-                    logo: "https://img.icons8.com/color/96/000000/fc-bayern-münchen.png"
+                    logo: "https://img.icons8.com/color/96/000000/fc-bayern-münchen.png",
+                    shortName: "بايرن"
                 },
                 awayTeam: {
                     name: "باريس سان جيرمان",
-                    logo: "https://img.icons8.com/color/96/000000/paris-saint-germain.png"
+                    logo: "https://img.icons8.com/color/96/000000/paris-saint-germain.png",
+                    shortName: "باريس"
                 },
                 date: "2023-05-15T21:00:00", // UTC time
-                stadium: "أليانز أرينا",
+                stadium: "أليانز أرينا - ميونخ",
                 broadcaster: "beIN Sports HD 1",
                 commentator: "علي محمد علي",
                 status: "upcoming", // upcoming, live, finished
                 currentMinute: 0,
                 score: "0 - 0",
                 streamUrl: "#",
-                highlightsUrl: "#"
+                highlightsUrl: "#",
+                events: [],
+                isFeatured: true
             },
             {
                 id: 2,
-                competition: "الدوري الإنجليزي",
+                competition: "الدوري الإنجليزي - الجولة 32",
                 homeTeam: {
                     name: "مانشستر سيتي",
-                    logo: "https://img.icons8.com/color/96/000000/manchester-city.png"
+                    logo: "https://img.icons8.com/color/96/000000/manchester-city.png",
+                    shortName: "مان سيتي"
                 },
                 awayTeam: {
                     name: "ليفربول",
-                    logo: "https://img.icons8.com/color/96/000000/liverpool-fc.png"
+                    logo: "https://img.icons8.com/color/96/000000/liverpool-fc.png",
+                    shortName: "ليفربول"
                 },
                 date: "2023-05-18T18:30:00",
-                stadium: "الاتحاد",
+                stadium: "ملعب الاتحاد - مانشستر",
                 broadcaster: "Sky Sports Premier League",
                 commentator: "محمد الشمراني",
                 status: "live",
                 currentMinute: 64,
                 score: "1 - 1",
                 streamUrl: "https://example.com/live-stream",
-                highlightsUrl: "#"
+                highlightsUrl: "#",
+                events: [
+                    { time: 23, type: "goal", team: "home", player: "جوليان ألفاريز", description: "هدف رائع بتسديدة قوية من خارج المنطقة" },
+                    { time: 45, type: "yellow-card", team: "away", player: "فيرجيل فان دايك", description: "خطأ قاسي على مهاجم الفريق المنافس" },
+                    { time: 51, type: "goal", team: "away", player: "محمد صلاح", description: "هدف من ركلة جزاء بعد عرقلة واضحة" },
+                    { time: 60, type: "substitution", team: "home", player: "جاك جريليش", description: "خروج كيفين دي بروين ودخول جاك جريليش" }
+                ],
+                isFeatured: true
             },
             {
                 id: 3,
-                competition: "كأس العالم للأندية",
+                competition: "كأس العالم للأندية - النهائي",
                 homeTeam: {
                     name: "ريال مدريد",
-                    logo: "https://img.icons8.com/color/96/000000/real-madrid.png"
+                    logo: "https://img.icons8.com/color/96/000000/real-madrid.png",
+                    shortName: "ريال مدريد"
                 },
                 awayTeam: {
                     name: "الهلال",
-                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png"
+                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png",
+                    shortName: "الهلال"
                 },
                 date: "2023-05-12T20:00:00",
-                stadium: "مراكش",
+                stadium: "ملعب مراكش - المغرب",
                 broadcaster: "MBC الرياضية",
                 commentator: "خالد الغامدي",
                 status: "finished",
                 currentMinute: 90,
                 score: "3 - 1",
                 streamUrl: "#",
-                highlightsUrl: "https://example.com/highlights"
+                highlightsUrl: "https://example.com/highlights",
+                events: [
+                    { time: 13, type: "goal", team: "home", player: "فينيسيوس جونيور", description: "هدف مبكر بعد عرضية دقيقة من كروس" },
+                    { time: 28, type: "goal", team: "away", player: "أوديون إيغالو", description: "تعادل بعد خطأ دفاعي من ريال مدريد" },
+                    { time: 45, type: "yellow-card", team: "home", player: "كاسيميرو", description: "خطأ تكتيكي لوقف هجمة خطيرة" },
+                    { time: 58, type: "goal", team: "home", player: "كاريم بنزيما", description: "تقدم ريال مدريد بعد كرة عرضية" },
+                    { time: 78, type: "red-card", team: "away", player: "علي البليهي", description: "طرد مباشر بعد عرقلة واضحة على مهاجم" },
+                    { time: 89, type: "goal", team: "home", player: "فيدريكو فالفيردي", description: "هدف قاتل في الدقائق الأخيرة" }
+                ],
+                isFeatured: false
+            },
+            {
+                id: 4,
+                competition: "الدوري الإسباني - الجولة 30",
+                homeTeam: {
+                    name: "برشلونة",
+                    logo: "https://img.icons8.com/color/96/000000/fc-barcelona.png",
+                    shortName: "برشلونة"
+                },
+                awayTeam: {
+                    name: "أتلتيكو مدريد",
+                    logo: "https://img.icons8.com/color/96/000000/atletico-de-madrid.png",
+                    shortName: "أتلتيكو"
+                },
+                date: "2023-05-20T19:45:00",
+                stadium: "كامب نو - برشلونة",
+                broadcaster: "beIN Sports HD 2",
+                commentator: "حسين المطيري",
+                status: "upcoming",
+                currentMinute: 0,
+                score: "0 - 0",
+                streamUrl: "#",
+                highlightsUrl: "#",
+                events: [],
+                isFeatured: true
+            },
+            {
+                id: 5,
+                competition: "الدوري السعودي - الجولة 25",
+                homeTeam: {
+                    name: "الهلال",
+                    logo: "https://img.icons8.com/color/96/000000/al-hilal.png",
+                    shortName: "الهلال"
+                },
+                awayTeam: {
+                    name: "النصر",
+                    logo: "https://img.icons8.com/color/96/000000/al-nassr.png",
+                    shortName: "النصر"
+                },
+                date: "2023-05-14T20:00:00",
+                stadium: "ملعب جامعة الملك سعود - الرياض",
+                broadcaster: "SSC الرياضية",
+                commentator: "عمر الدوسري",
+                status: "finished",
+                currentMinute: 90,
+                score: "2 - 0",
+                streamUrl: "#",
+                highlightsUrl: "https://example.com/highlights",
+                events: [
+                    { time: 35, type: "goal", team: "home", player: "أوديون إيغالو", description: "هدف بعد كرة عرضية دقيقة" },
+                    { time: 45, type: "yellow-card", team: "away", player: "كريستيانو رونالدو", description: "احتجاج على قرار الحكم" },
+                    { time: 67, type: "goal", team: "home", player: "سالم الدوسري", description: "هدف ثاني بعد هجمة مرتدة" },
+                    { time: 78, type: "red-card", team: "away", player: "علي لاجامي", description: "طرد بعد تدخل عنيف" }
+                ],
+                isFeatured: true
             }
         ];
 
@@ -618,7 +1223,7 @@
                 return new Date(a.date) - new Date(b.date);
             });
             
-            sortedMatches.forEach(match => {
+            sortedMatches.forEach((match, index) => {
                 const matchDate = new Date(match.date);
                 const now = new Date();
                 const timeDiff = matchDate - now;
@@ -655,36 +1260,111 @@
                 
                 // إنشاء بطاقة المباراة
                 let matchCard = document.createElement('div');
-                matchCard.className = 'match-card';
+                matchCard.className = `match-card ${match.status === 'live' ? 'live' : ''} animate-fadeInUp delay-${index % 3}`;
+                
+                // إضافة شريط التميز إذا كانت المباراة مميزة
+                const ribbon = match.isFeatured ? `<div class="ribbon">مميز</div>` : '';
+                
+                // إضافة شارة مباشر إذا كانت المباراة حية
+                const liveBadge = match.status === 'live' ? `<div class="live-badge">مباشر <i class="fas fa-circle"></i></div>` : '';
+                
+                // إنشاء عناصر الأحداث
+                let eventsHtml = '';
+                if (match.events.length > 0) {
+                    eventsHtml = `<div class="match-events">
+                        <h4 style="color: var(--primary-color); margin-bottom: 15px; text-align: center; font-size: 16px;">
+                            <i class="fas fa-list-alt" style="margin-left: 8px;"></i>أحداث المباراة
+                        </h4>`;
+                    
+                    match.events.forEach(event => {
+                        let eventIcon = '';
+                        let eventColor = '';
+                        
+                        switch(event.type) {
+                            case 'goal':
+                                eventIcon = 'fas fa-futbol';
+                                eventColor = 'var(--finished-color)';
+                                break;
+                            case 'yellow-card':
+                                eventIcon = 'fas fa-square yellow-card';
+                                eventColor = 'var(--upcoming-color)';
+                                break;
+                            case 'red-card':
+                                eventIcon = 'fas fa-square red-card';
+                                eventColor = 'var(--live-color)';
+                                break;
+                            case 'substitution':
+                                eventIcon = 'fas fa-exchange-alt';
+                                eventColor = 'var(--secondary-color)';
+                                break;
+                            default:
+                                eventIcon = 'fas fa-info-circle';
+                                eventColor = 'var(--text-light)';
+                        }
+                        
+                        eventsHtml += `<div class="event-item">
+                            <div class="event-time">${event.time}'</div>
+                            <div class="event-icon" style="color: ${eventColor}">
+                                <i class="${eventIcon}"></i>
+                            </div>
+                            <div class="event-text">
+                                <strong>${event.player}</strong> - ${event.description}
+                            </div>
+                        </div>`;
+                    });
+                    
+                    eventsHtml += `</div>`;
+                }
+                
+                // شريط تقدم المباراة للمباريات الحية
+                const timeline = match.status === 'live' ? `
+                    <div class="match-timeline">
+                        <div class="timeline-progress" style="width: ${(match.currentMinute / 90) * 100}%"></div>
+                    </div>
+                ` : '';
+                
                 matchCard.innerHTML = `
+                    ${ribbon}
+                    ${liveBadge}
                     <div class="match-header">
                         <span class="competition"><i class="fas fa-trophy"></i> ${match.competition}</span>
                         <span class="match-status status-${match.status}">
                             ${match.status === 'upcoming' ? 'قريبًا' : 
-                              match.status === 'live' ? 'مباشر الآن <i class="fas fa-circle" style="font-size: 10px;"></i>' : 'انتهت'}
+                              match.status === 'live' ? 'مباشر الآن' : 'انتهت'}
                         </span>
                     </div>
                     <div class="match-content">
                         <div class="teams">
                             <div class="team">
-                                <img src="${match.homeTeam.logo}" class="team-logo" alt="${match.homeTeam.name}">
+                                <div class="team-logo-container">
+                                    <img src="${match.homeTeam.logo}" class="team-logo" alt="${match.homeTeam.name}">
+                                </div>
                                 <span class="team-name">${match.homeTeam.name}</span>
                             </div>
-                            <span class="vs">VS</span>
+                            
+                            <div class="vs-container">
+                                <div class="match-time">
+                                    <i class="far fa-clock"></i> ${formattedDate}
+                                </div>
+                                <div class="score">${match.score}</div>
+                                <div class="time-info">(توقيت ${timezoneName})</div>
+                            </div>
+                            
                             <div class="team">
-                                <img src="${match.awayTeam.logo}" class="team-logo" alt="${match.awayTeam.name}">
+                                <div class="team-logo-container">
+                                    <img src="${match.awayTeam.logo}" class="team-logo" alt="${match.awayTeam.name}">
+                                </div>
                                 <span class="team-name">${match.awayTeam.name}</span>
                             </div>
                         </div>
                         
-                        <div class="match-time">
-                            <i class="far fa-clock"></i> ${formattedDate}
-                        </div>
-                        <div class="time-info">(توقيت ${timezoneName})</div>
+                        ${timeline}
                         
                         <div class="match-details">
                             <div class="detail-box">
-                                <i class="fas fa-tv detail-icon"></i>
+                                <div class="detail-icon">
+                                    <i class="fas fa-tv"></i>
+                                </div>
                                 <div class="detail-content">
                                     <h4>القناة الناقلة</h4>
                                     <p>${match.broadcaster}</p>
@@ -692,7 +1372,9 @@
                             </div>
                             
                             <div class="detail-box">
-                                <i class="fas fa-microphone detail-icon"></i>
+                                <div class="detail-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
                                 <div class="detail-content">
                                     <h4>المعلق</h4>
                                     <p>${match.commentator}</p>
@@ -700,7 +1382,9 @@
                             </div>
                             
                             <div class="detail-box">
-                                <i class="fas fa-stadium detail-icon"></i>
+                                <div class="detail-icon">
+                                    <i class="fas fa-stadium"></i>
+                                </div>
                                 <div class="detail-content">
                                     <h4>الملعب</h4>
                                     <p>${match.stadium}</p>
@@ -708,25 +1392,38 @@
                             </div>
                         </div>
                         
-                        <div style="text-align: center;">
+                        ${eventsHtml}
+                        
+                        <div class="action-buttons">
                             ${match.status === 'upcoming' ? 
-                                `<a href="#" class="watch-btn watch-reminder-btn" data-match-id="${match.id}"><i class="fas fa-bell"></i> تذكير بالمباراة</a>` : 
+                                `<button class="watch-btn watch-reminder-btn" data-match-id="${match.id}">
+                                    <i class="fas fa-bell"></i> تذكير بالمباراة
+                                </button>` : 
                               match.status === 'live' ? 
-                                `<a href="${match.streamUrl}" class="watch-btn watch-live-btn"><i class="fas fa-play"></i> مشاهدة مباشرة</a>` : 
-                                `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn"><i class="fas fa-play"></i> مشاهدة الأهداف</a>`}
+                                `<a href="${match.streamUrl}" class="watch-btn watch-live-btn">
+                                    <i class="fas fa-play"></i> مشاهدة مباشرة
+                                </a>` : 
+                                `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn">
+                                    <i class="fas fa-play"></i> مشاهدة الأهداف
+                                </a>`}
+                                
+                            ${match.status === 'live' || match.status === 'finished' ? 
+                                `<button class="watch-btn" style="background: var(--primary-color);" data-match-id="${match.id}">
+                                    <i class="fas fa-chart-bar"></i> الإحصائيات
+                                </button>` : ''}
                         </div>
                     </div>
                     ${match.status === 'live' ? `
                     <div class="match-footer">
                         <div class="live-minutes">
-                            <i class="fas fa-circle"></i> النتيجة: ${match.score}
+                            <i class="fas fa-circle"></i> النتيجة الحالية: ${match.score}
                         </div>
                         <div>
                             الدقيقة ${match.currentMinute}'
                         </div>
                     </div>
                     ` : match.status === 'finished' ? `
-                    <div style="text-align: center; margin: 20px 25px; background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                    <div style="text-align: center; margin: 20px 25px; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); padding: 12px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">
                         <i class="fas fa-futbol" style="color: var(--finished-color);"></i>
                         <span style="font-weight: bold; margin-right: 8px;">النتيجة النهائية: ${match.score}</span>
                     </div>
@@ -756,6 +1453,21 @@
             return timezoneNames[timezone] || timezone;
         }
         
+        // إظهار الإشعار
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            notification.className = `notification ${type}`;
+            notificationMessage.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
         // إضافة أحداث للأزرار
         function addButtonEvents() {
             // تفعيل التذكير بالمباراة
@@ -768,32 +1480,7 @@
                     if ('Notification' in window) {
                         Notification.requestPermission().then(permission => {
                             if (permission === 'granted') {
-                                // عرض رسالة تأكيد جميلة
-                                const confirmation = document.createElement('div');
-                                confirmation.style.position = 'fixed';
-                                confirmation.style.top = '20px';
-                                confirmation.style.right = '20px';
-                                confirmation.style.backgroundColor = '#27ae60';
-                                confirmation.style.color = 'white';
-                                confirmation.style.padding = '15px 25px';
-                                confirmation.style.borderRadius = '5px';
-                                confirmation.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-                                confirmation.style.zIndex = '1000';
-                                confirmation.style.display = 'flex';
-                                confirmation.style.alignItems = 'center';
-                                confirmation.innerHTML = `
-                                    <i class="fas fa-check-circle" style="margin-left: 10px; font-size: 20px;"></i>
-                                    تم تفعيل التذكير لمباراة ${match.homeTeam.name} vs ${match.awayTeam.name}!
-                                `;
-                                document.body.appendChild(confirmation);
-                                
-                                setTimeout(() => {
-                                    confirmation.style.opacity = '0';
-                                    confirmation.style.transform = 'translateY(-20px)';
-                                    setTimeout(() => {
-                                        document.body.removeChild(confirmation);
-                                    }, 300);
-                                }, 3000);
+                                showNotification(`تم تفعيل التذكير لمباراة ${match.homeTeam.shortName} vs ${match.awayTeam.shortName}!`);
                                 
                                 // حساب وقت التذكير (15 دقيقة قبل المباراة)
                                 const matchDate = new Date(match.date);
@@ -811,11 +1498,11 @@
                                     }, timeout);
                                 }
                             } else {
-                                alert('يمكنك تفعيل التذكير بالمباراة من إعدادات المتصفح لاحقًا.');
+                                showNotification('يجب السماح بالإشعارات لتفعيل التذكير بالمباراة', 'error');
                             }
                         });
                     } else {
-                        alert('المتصفح لا يدعم نظام الإشعارات. نوصي باستخدام متصفح حديث مثل Chrome أو Firefox.');
+                        showNotification('المتصفح لا يدعم نظام الإشعارات. نوصي باستخدام متصفح حديث', 'error');
                     }
                 });
             });
@@ -843,24 +1530,32 @@
         
         // بدء التطبيق
         document.addEventListener('DOMContentLoaded', function() {
+            // إخفاء شاشة التحميل بعد 2 ثانية (يمكن استبدالها بتحميل حقيقي للبيانات)
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.loading-overlay').style.display = 'none';
+                }, 500);
+            }, 2000);
+            
             // تحديد المنطقة الزمنية التلقائية
             const timezoneSelect = document.getElementById('timezone-select');
             timezoneSelect.value = 'auto';
             
             // تحسين واجهة اختيار المنطقة الزمنية
             timezoneSelect.addEventListener('focus', function() {
-                this.parentElement.style.boxShadow = '0 0 0 2px rgba(52, 152, 219, 0.5)';
+                this.parentElement.style.boxShadow = '0 0 0 3px rgba(76, 201, 240, 0.5)';
             });
             
             timezoneSelect.addEventListener('blur', function() {
-                this.parentElement.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                this.parentElement.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
             });
             
             // تغيير المنطقة الزمنية عند اختيار المستخدم
             timezoneSelect.addEventListener('change', function() {
                 selectedTimezone = this.value;
                 
-                // إضافة تأثير عند تغيير المنطقة الزمنية
+                // إضافة تأثير تحميل عند تغيير المنطقة الزمنية
                 const matchesList = document.getElementById('matches-list');
                 matchesList.style.opacity = '0.5';
                 matchesList.style.transition = 'opacity 0.3s ease';
@@ -878,5 +1573,6 @@
             console.log('المنطقة الزمنية للمستخدم:', userTimezone);
         });
     </script>
+    <script type='text/javascript' src='//pl27130835.profitableratecpm.com/e1/30/e5/e130e59cd573d04883b03f5a83ef841a.js'></script>
 </body>
 </html>
