@@ -502,60 +502,55 @@
 
     <script>
         // بيانات المباريات
-        const matches = [
-            {
-                id: 1,
-                competition: "كأس أمم أفريقيا",
-                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
-                homeTeam: {
-                    name: "المغرب النسوي",
-                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4x1emoep.png",
-                    shortName: "المغرب النسوي"
-                },
-                awayTeam: {
-                    name: "السنغال النسوي",
-                    logo: "https://images.elbotola.com/stats/logos/dj2ryohygejq1zp.png",
-                    shortName: "السنغال النسوي"
-                },
-                    date: new Date(2025, 7, 12, 20, 0), // 20 يناير 2024 الساعة 10 مساءً
-
-                stadium: "ملعب الأمير مولاي عبد الله، الرباط",
-                broadcaster: "beIN SPORTS 3",
-                commentator: "محمد الشرفي",
-                status: "upcoming",
-                currentMinute: 0,
-                score: "-",
-                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-                competitionType: "africa"
-            },
-            {
-                id: 2,
-                competition: "كأس أمم أفريقيا",
-                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
-                homeTeam: {
-                    name: "تنزانيا",
-                    logo: "https://images.elbotola.com/stats/logos/2y8m4zh3xkjql07.png",
-                    shortName: "زامبيا النسوي"
-                },
-                awayTeam: {
-                    name: "الكونغو الديموقراطية النسوي",
-                    logo: "https://images.elbotola.com/stats/logos/y39mp1h3o17mojx.png",
-                    shortName: "الكونغو الديموقراطية النسوي"
-                },
-                 date: new Date(2025, 7, 12, 20, 0), // 20 يناير 2024 الساعة 10 مساءً
-                stadium: "ملعب مراكش، مراكش",
-                broadcaster: "beIN SPORTS 3",
-                commentator: "علي الكعبي",
-                status: "live",
-                currentMinute: 0,
-                score: "0 - 0",
-                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-                competitionType: "africa"
-            },
-            {
-               
-        ];
-
+       const matches = [
+    {
+        id: 1,
+        competition: "كأس أمم أفريقيا",
+        competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
+        homeTeam: {
+            name: "المغرب النسوي",
+            logo: "https://images.elbotola.com/stats/logos/dn1m1gh4x1emoep.png",
+            shortName: "المغرب النسوي"
+        },
+        awayTeam: {
+            name: "السنغال النسوي",
+            logo: "https://images.elbotola.com/stats/logos/dj2ryohygejq1zp.png",
+            shortName: "السنغال النسوي"
+        },
+        date: new Date(2025, 6, 12, 20, 0), // تم تصحيح التاريخ (يوليو = 6 لأن الأشهر تبدأ من 0)
+        stadium: "ملعب الأمير مولاي عبد الله، الرباط",
+        broadcaster: "beIN SPORTS 3",
+        commentator: "محمد الشرفي",
+        status: "upcoming",
+        currentMinute: 0,
+        score: "-",
+        streamUrl: "https://oussama2025-d.github.io/osmplayer/",
+        competitionType: "africa"
+    },
+    {
+        id: 2,
+        competition: "كأس أمم أفريقيا",
+        competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
+        homeTeam: {
+            name: "تنزانيا",
+            logo: "https://images.elbotola.com/stats/logos/2y8m4zh3xkjql07.png",
+            shortName: "زامبيا النسوي"
+        },
+        awayTeam: {
+            name: "الكونغو الديموقراطية النسوي",
+            logo: "https://images.elbotola.com/stats/logos/y39mp1h3o17mojx.png",
+            shortName: "الكونغو الديموقراطية النسوي"
+        },
+        date: new Date(2025, 6, 12, 20, 0), // تم تصحيح التاريخ
+        stadium: "ملعب مراكش، مراكش",
+        broadcaster: "beIN SPORTS 3",
+        commentator: "علي الكعبي",
+        status: "live",
+        currentMinute: 0,
+        score: "0 - 0",
+        streamUrl: "https://oussama2025-d.github.io/osmplayer/",
+        competitionType: "africa"
+    }
         // تحديث وقت المباراة مع دعم المناطق الزمنية
         function updateMatchStatus(match) {
             const now = new Date();
