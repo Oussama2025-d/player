@@ -3,60 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSM LIVE - البث المباشر للمباريات</title>
+    <title>GoalTime - بث مباشر للمباريات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0a0e2e;
-            --secondary-color: #00c2ff;
-            --accent-color: #ff4757;
-            --dark-color: #1a1f4b;
-            --light-color: #f5f6fa;
-            --text-color: #2f3542;
-            --text-light: #747d8c;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-            --danger-color: #ff4757;
-            --gradient: linear-gradient(135deg, #0a0e2e 0%, #1a1f4b 100%);
-            --live-gradient: linear-gradient(135deg, #ff4757 0%, #ff6b81 100%);
-            --card-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.2);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --primary: #f8fafc;
+            --secondary: #e2e8f0;
+            --accent: #3b82f6;
+            --live: #ef4444;
+            --upcoming: #f59e0b;
+            --finished: #10b981;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --card-bg: #ffffff;
+            --highlight: rgba(59, 130, 246, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
         }
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Almarai', sans-serif;
         }
         
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--light-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(to bottom, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
+            background-attachment: fixed;
         }
         
-        /* Header Styles */
-        .main-header {
-            background: var(--gradient);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        /* Header - تصميم جديد */
+        .header {
+            background: var(--primary);
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--secondary);
         }
         
         .header-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -65,2848 +57,700 @@
         .logo {
             display: flex;
             align-items: center;
+            gap: 0.8rem;
             font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
+            font-weight: 800;
+            color: var(--text);
             text-decoration: none;
-        }
-        
-        .logo i {
-            margin-left: 0.8rem;
-            color: var(--secondary-color);
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-right: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-        
-        .nav-links a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .nav-links a i {
-            margin-left: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .user-actions {
-            display: flex;
-            align-items: center;
-        }
-        
-        .search-box {
-            position: relative;
-            margin-left: 1.5rem;
-        }
-        
-        .search-box input {
-            padding: 0.6rem 1.2rem 0.6rem 2.5rem;
-            border-radius: 30px;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-family: 'Tajawal', sans-serif;
-            width: 200px;
-            transition: var(--transition);
-        }
-        
-        .search-box input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.3);
-            width: 250px;
-        }
-        
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-        }
-        
-        /* Auth Modal */
-        .auth-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .auth-container {
-            background: white;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 400px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: modalFadeIn 0.3s ease;
-        }
-        
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .auth-tabs {
-            display: flex;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .auth-tab {
-            flex: 1;
-            padding: 1rem;
-            text-align: center;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .auth-tab.active {
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--secondary-color);
-        }
-        
-        .auth-content {
-            padding: 2rem;
-        }
-        
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .auth-form-group {
-            margin-bottom: 1.5rem;
             position: relative;
         }
         
-        .auth-form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .auth-form-group input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: 'Tajawal', sans-serif;
-            transition: var(--transition);
-        }
-        
-        .auth-form-group input:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.2);
-        }
-        
-        .auth-form-group i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-        
-        .auth-form-group input.with-icon {
-            padding-left: 2.5rem;
-        }
-        
-        .auth-submit {
-            background: var(--secondary-color);
-            color: var(--dark-color);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 5px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-        }
-        
-        .auth-submit:hover {
-            background: #00a8ff;
-        }
-        
-        .auth-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .auth-footer a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .auth-close {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 1.5rem;
-            color: white;
-            cursor: pointer;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            margin-bottom: 3rem;
-        }
-        
-        .hero::before {
+        .logo::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: -5px;
             right: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(10, 14, 46, 0.8);
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+            border-radius: 3px;
         }
         
-        .hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-            width: 100%;
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
         }
         
-        .hero h1 {
-            font-size: 2.8rem;
-            color: white;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 700px;
-            margin-bottom: 2rem;
-        }
-        
-        .hero-buttons {
+        .header-actions {
             display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.8rem;
-            border-radius: 30px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 1rem;
-            border: none;
+            gap: 1.5rem;
+        }
+        
+        .last-update {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .refresh-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
             cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .btn-primary {
-            background: var(--secondary-color);
-            color: var(--dark-color);
+        .refresh-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
         }
         
-        .btn-primary:hover {
-            background: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .btn-outline:hover {
-            background: white;
-            color: var(--dark-color);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn i {
-            margin-left: 0.5rem;
-        }
-        
-        /* Main Content */
+        /* Main Content - تصميم جديد */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem 3rem;
-            flex: 1;
+            padding: 2rem;
         }
         
-        /* Filters Section */
-        .filters {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
             margin-bottom: 2rem;
-            background: white;
-            padding: 1.2rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
+            position: relative;
+            display: inline-block;
+            color: var(--text);
         }
         
-        .filter-group {
-            display: flex;
-            align-items: center;
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+            border-radius: 4px;
         }
         
-        .filter-label {
-            font-weight: 700;
-            margin-left: 1rem;
-            color: var(--text-color);
-        }
-        
-        .filter-select {
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            border: 1px solid #ddd;
-            font-family: 'Tajawal', sans-serif;
-            background: white;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.2);
-        }
-        
-        .view-toggle {
-            display: flex;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            overflow: hidden;
-        }
-        
-        .view-btn {
-            padding: 0.5rem 1rem;
-            background: white;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--text-light);
-        }
-        
-        .view-btn:first-child {
-            border-left: none;
-        }
-        
-        .view-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        /* Matches Grid */
+        /* بطاقات المباريات - تصميم جديد */
         .matches-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
         }
         
-        /* Match Card */
         .match-card {
-            background: white;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
+            transition: all 0.3s ease;
             position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--secondary);
         }
         
         .match-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         
         .match-card.live {
-            border-top: 4px solid var(--danger-color);
+            border-left: 4px solid var(--live);
         }
         
         .match-card.upcoming {
-            border-top: 4px solid var(--warning-color);
+            border-left: 4px solid var(--upcoming);
         }
         
         .match-card.finished {
-            border-top: 4px solid var(--success-color);
+            border-left: 4px solid var(--finished);
         }
         
         .match-header {
-            padding: 1.2rem 1.5rem;
+            padding: 1.2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #f1f2f6;
+            background: var(--glass);
+            position: relative;
+            border-bottom: 1px solid var(--secondary);
         }
         
-        .competition {
+        .competition-info {
             display: flex;
             align-items: center;
-            font-weight: 700;
-            color: var(--primary-color);
+            gap: 0.8rem;
         }
         
-        .competition i {
-            margin-left: 0.8rem;
-            color: var(--secondary-color);
+        .competition-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 3px;
+        }
+        
+        .competition-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text);
         }
         
         .match-status {
-            padding: 0.4rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: white;
-            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
         
         .status-live {
-            background: var(--live-gradient);
-            animation: pulse 2s infinite;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--live);
         }
         
         .status-upcoming {
-            background: var(--warning-color);
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--upcoming);
         }
         
         .status-finished {
-            background: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--finished);
         }
         
         .match-content {
             padding: 1.5rem;
         }
         
-        .teams {
+        .teams-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            position: relative;
         }
         
         .team {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 35%;
+            width: 40%;
         }
         
         .team-logo-container {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: white;
+            background: rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 3px solid #f8f9fa;
-            transition: var(--transition);
+            margin-bottom: 0.8rem;
+            border: 2px solid var(--secondary);
+            transition: all 0.3s;
         }
         
-        .match-card:hover .team-logo-container {
+        .team:hover .team-logo-container {
             transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .team-logo {
-            max-width: 60px;
-            max-height: 60px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
         }
         
         .team-name {
             font-weight: 700;
-            text-align: center;
             font-size: 1rem;
+            text-align: center;
+            color: var(--text);
         }
         
-        .vs-container {
+        .score-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 30%;
+            width: 20%;
         }
         
         .match-time {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
         }
         
-        .match-time i {
-            margin-left: 0.5rem;
-            color: var(--secondary-color);
-        }
-        
-        .score {
+        .match-score {
             font-size: 2rem;
             font-weight: 800;
-            color: var(--primary-color);
-            margin: 0.5rem 0;
-        }
-        
-        .time-info {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            text-align: center;
-        }
-        
-        .match-progress {
-            height: 6px;
-            background: #f1f2f6;
-            border-radius: 3px;
-            margin: 1.5rem 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: var(--danger-color);
-            width: 50%;
+            background: linear-gradient(90deg, var(--accent) 0%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0.3rem 0;
         }
         
         .match-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px dashed #ddd;
-        }
-        
-        .detail-box {
-            background: #f8f9fa;
-            border-radius: 8px;
+            background: var(--glass);
+            border-radius: 12px;
             padding: 1rem;
+            margin-top: 1.2rem;
+            border: 1px solid var(--secondary);
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            font-size: 0.85rem;
+        }
+        
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
-            transition: var(--transition);
+            gap: 0.5rem;
         }
         
-        .detail-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .detail-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 194, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 1rem;
-            color: var(--secondary-color);
-            font-size: 1.2rem;
-        }
-        
-        .detail-content h4 {
-            margin: 0 0 0.3rem 0;
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-        
-        .detail-content p {
-            margin: 0;
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 1.5rem;
-            gap: 1rem;
+        .detail-value {
+            font-weight: 600;
+            text-align: left;
+            color: var(--text);
         }
         
         .watch-btn {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.9rem;
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(90deg, var(--accent) 0%, #60a5fa 100%);
+            color: white;
             border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            min-width: 150px;
+            text-decoration: none;
+            margin-top: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .watch-btn:hover {
+            background: linear-gradient(90deg, var(--accent) 0%, #3b82f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .watch-btn:disabled {
+            background: var(--secondary);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            box-shadow: none;
         }
         
         .watch-btn i {
-            margin-left: 0.5rem;
+            margin-left: 0.6rem;
         }
         
-        .watch-live-btn {
-            background: var(--danger-color);
+        .live-indicator {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--live);
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
-        }
-        
-        .watch-live-btn:hover {
-            background: #ff6b81;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
-        }
-        
-        .watch-highlights-btn {
-            background: var(--success-color);
-            color: white;
-        }
-        
-        .watch-highlights-btn:hover {
-            background: #7bed9f;
-            transform: translateY(-3px);
-        }
-        
-        .watch-reminder-btn {
-            background: var(--warning-color);
-            color: white;
-        }
-        
-        .watch-reminder-btn:hover {
-            background: #ffb142;
-            transform: translateY(-3px);
-        }
-        
-        .stats-btn {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .stats-btn:hover {
-            background: #2f3542;
-            transform: translateY(-3px);
-        }
-        
-        .match-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: #f8f9fa;
-            border-top: 1px solid #f1f2f6;
-        }
-        
-        .live-info {
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.2);
+            z-index: 1;
             display: flex;
             align-items: center;
-            color: var(--danger-color);
-            font-weight: 700;
-            font-size: 0.9rem;
+            gap: 0.4rem;
         }
         
-        .live-info i {
-            margin-left: 0.5rem;
-            font-size: 0.6rem;
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
         
-        /* Match Events */
-        .match-events {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px dashed #ddd;
-        }
-        
-        .events-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-        
-        .events-title i {
-            margin-left: 0.5rem;
-        }
-        
-        .event-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            padding: 0.6rem 0.8rem;
-            border-radius: 8px;
-            background: #f8f9fa;
-            transition: var(--transition);
-        }
-        
-        .event-item:hover {
-            transform: translateX(5px);
-            background: #e8f4fc;
-        }
-        
-        .event-time {
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-left: 0.5rem;
-            min-width: 30px;
-        }
-        
-        .event-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 0.5rem;
-            color: var(--danger-color);
-        }
-        
-        .event-text {
-            flex: 1;
-            font-size: 0.9rem;
-        }
-        
-        .event-text strong {
-            color: var(--primary-color);
-        }
-        
-        /* Featured Section */
-        .featured-section {
-            margin-bottom: 3rem;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            position: relative;
-            padding-right: 1rem;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            bottom: -5px;
-            width: 50px;
-            height: 3px;
-            background: var(--secondary-color);
-        }
-        
-        .view-all {
-            color: var(--secondary-color);
-            font-weight: 700;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .view-all i {
-            margin-left: 0.5rem;
-        }
-        
-        /* Featured Matches Carousel */
-        .featured-carousel {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
-            height: 300px;
-        }
-        
-        .carousel-slide {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .carousel-slide.active {
-            opacity: 1;
-        }
-        
-        .carousel-content {
-            position: relative;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(10, 14, 46, 0.9), transparent);
-            color: white;
-        }
-        
-        .carousel-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: var(--danger-color);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-        
-        .carousel-teams {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .carousel-team {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 40%;
-        }
-        
-        .carousel-team-logo {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .carousel-team-logo img {
-            max-width: 80%;
-            max-height: 80%;
-        }
-        
-        .carousel-team-name {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        
-        .carousel-vs {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0 1rem;
-        }
-        
-        .carousel-score {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .carousel-time {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-time i {
-            margin-left: 0.5rem;
-        }
-        
-        .carousel-dots {
-            position: absolute;
-            bottom: 1rem;
-            right: 50%;
-            transform: translateX(50%);
-            display: flex;
-        }
-        
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            margin: 0 0.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .carousel-dot.active {
-            background: white;
-            width: 20px;
-            border-radius: 5px;
-        }
-        
-        /* Live Channels Section */
-        .channels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        
-        .channel-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-        }
-        
-        .channel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .channel-logo {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-        
-        .channel-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        .channel-info {
-            padding: 1.2rem;
-        }
-        
-        .channel-name {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-        }
-        
-        .channel-matches {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-        
-        .channel-matches span {
-            color: var(--danger-color);
-            font-weight: 700;
-        }
-        
-        .channel-btn {
-            display: block;
-            text-align: center;
-            padding: 0.6rem;
-            background: var(--secondary-color);
-            color: var(--dark-color);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 700;
-            transition: var(--transition);
-        }
-        
-        .channel-btn:hover {
-            background: #00a8ff;
-            color: white;
-        }
-        
-        /* News Section */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        
-        .news-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-        }
-        
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-image {
-            height: 180px;
-            overflow: hidden;
-        }
-        
-        .news-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .news-card:hover .news-image img {
-            transform: scale(1.05);
-        }
-        
-        .news-content {
-            padding: 1.2rem;
-        }
-        
-        .news-date {
-            font-size: 0.8rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .news-date i {
-            margin-left: 0.5rem;
-        }
-        
-        .news-title {
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            line-height: 1.4;
-        }
-        
-        .news-excerpt {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .read-more {
-            color: var(--secondary-color);
-            font-weight: 700;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        .read-more i {
-            margin-left: 0.5rem;
-            transition: var(--transition);
-        }
-        
-        .read-more:hover i {
-            transform: translateX(-5px);
-        }
-        
         /* Footer */
-        .main-footer {
-            background: var(--gradient);
-            color: white;
-            padding: 3rem 0 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 40px;
-            height: 2px;
-            background: var(--secondary-color);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary-color);
-            transform: translateX(-5px);
-        }
-        
-        .footer-links a i {
-            margin-left: 0.5rem;
-            font-size: 0.8rem;
-        }
-        
-        .footer-about p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-social {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: var(--transition);
-        }
-        
-        .social-icon:hover {
-            background: var(--secondary-color);
-            color: var(--dark-color);
-            transform: translateY(-3px);
-        }
-        
-        .footer-newsletter input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 30px;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-family: 'Tajawal', sans-serif;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-newsletter input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .footer-newsletter button {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 30px;
-            border: none;
-            background: var(--secondary-color);
-            color: var(--dark-color);
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .footer-newsletter button:hover {
-            background: white;
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1.5rem;
+        .footer {
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: var(--text-secondary);
             font-size: 0.9rem;
-        }
-        
-        /* User Profile */
-        .user-profile {
-            display: flex;
-            align-items: center;
-            margin-left: 1.5rem;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary-color);
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin-left: 0.5rem;
-        }
-        
-        .user-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            overflow: hidden;
-            display: none;
-            z-index: 100;
-        }
-        
-        .user-profile:hover .user-menu {
-            display: block;
-        }
-        
-        .user-menu a {
-            display: block;
-            padding: 0.8rem 1rem;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .user-menu a:hover {
-            background: #f8f9fa;
-            color: var(--secondary-color);
-        }
-        
-        .user-menu a i {
-            margin-left: 0.5rem;
-            width: 20px;
-            text-align: center;
+            border-top: 1px solid var(--secondary);
         }
         
         /* Animations */
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(0.95); opacity: 1; }
         }
         
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        .loading-spinner {
-            width: 70px;
-            height: 70px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--secondary-color);
-            animation: spin 1s linear infinite;
-            margin-bottom: 1.5rem;
-        }
-        
-        .loading-text {
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success-color);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .notification i {
-            margin-left: 10px;
-            font-size: 20px;
-        }
-        
-        /* Responsive Styles */
+        /* Responsive */
         @media (max-width: 1200px) {
             .matches-grid {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .header-container {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            
-            .logo {
-                margin-bottom: 1rem;
-            }
-            
-            .nav-links {
-                margin-bottom: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .filters {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .filter-group {
-                margin-bottom: 1rem;
-                width: 100%;
-            }
-            
-            .filter-select {
-                width: 100%;
-            }
-            
-            .user-actions {
-                width: 100%;
-                justify-content: center;
-                margin-top: 1rem;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             }
         }
         
         @media (max-width: 768px) {
-            .hero {
-                height: 350px;
+            .header {
+                padding: 1rem;
             }
             
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero-buttons {
+            .header-container {
                 flex-direction: column;
-                gap: 0.8rem;
+                gap: 1rem;
+                align-items: flex-start;
             }
             
-            .btn {
+            .header-actions {
                 width: 100%;
+                justify-content: space-between;
             }
             
             .matches-grid {
                 grid-template-columns: 1fr;
             }
             
-            .team-logo-container {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .team-logo {
-                max-width: 50px;
-                max-height: 50px;
-            }
-            
-            .score {
+            .page-title {
                 font-size: 1.8rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .watch-btn {
-                width: 100%;
-            }
-            
-            .auth-container {
-                width: 90%;
             }
         }
         
         @media (max-width: 576px) {
-            .hero {
-                height: 300px;
+            .main-container {
+                padding: 1.5rem;
             }
             
-            .hero h1 {
-                font-size: 1.5rem;
+            .team-logo-container {
+                width: 60px;
+                height: 60px;
             }
             
-            .nav-links li {
-                margin: 0.5rem;
+            .team-logo {
+                width: 40px;
+                height: 40px;
             }
             
-            .search-box {
-                margin-left: 0;
-                margin-top: 1rem;
-                width: 100%;
-            }
-            
-            .search-box input {
-                width: 100%;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-            }
-            
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .auth-content {
-                padding: 1.5rem 1rem;
+            .match-score {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">جاري تحميل البيانات...</div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-container">
-            <div class="auth-tabs">
-                <div class="auth-tab active" id="loginTab">تسجيل الدخول</div>
-                <div class="auth-tab" id="registerTab">إنشاء حساب</div>
-            </div>
-            
-            <div class="auth-content">
-                <form class="auth-form" id="loginForm">
-                    <div class="auth-form-group">
-                        <label for="loginEmail">البريد الإلكتروني</label>
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="loginEmail" class="with-icon" required>
-                    </div>
-                    
-                    <div class="auth-form-group">
-                        <label for="loginPassword">كلمة المرور</label>
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="loginPassword" class="with-icon" required>
-                    </div>
-                    
-                    <button type="submit" class="auth-submit">تسجيل الدخول</button>
-                    
-                    <div class="auth-footer">
-                        ليس لديك حساب؟ <a href="#" id="showRegister">سجل الآن</a>
-                    </div>
-                </form>
-                
-                <form class="auth-form" id="registerForm" style="display: none;">
-                    <div class="auth-form-group">
-                        <label for="registerName">الاسم الكامل</label>
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="registerName" class="with-icon" required>
-                    </div>
-                    
-                    <div class="auth-form-group">
-                        <label for="registerEmail">البريد الإلكتروني</label>
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="registerEmail" class="with-icon" required>
-                    </div>
-                    
-                    <div class="auth-form-group">
-                        <label for="registerPassword">كلمة المرور</label>
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="registerPassword" class="with-icon" required>
-                    </div>
-                    
-                    <div class="auth-form-group">
-                        <label for="registerConfirmPassword">تأكيد كلمة المرور</label>
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="registerConfirmPassword" class="with-icon" required>
-                    </div>
-                    
-                    <button type="submit" class="auth-submit">إنشاء حساب</button>
-                    
-                    <div class="auth-footer">
-                        لديك حساب بالفعل؟ <a href="#" id="showLogin">سجل الدخول</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
-    <header class="main-header">
+    <header class="header">
         <div class="header-container">
             <a href="#" class="logo">
-                <i class="fas fa-futbol"></i>
-                <span>OSM LIVE</span>
+                <i class="fas fa-futbol logo-icon"></i>
+                <span>GoalTime</span>
             </a>
             
-            <ul class="nav-links">
-                <li><a href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
-                <li><a href="#"><i class="fas fa-tv"></i> القنوات</a></li>
-                <li><a href="#"><i class="fas fa-trophy"></i> البطولات</a></li>
-                <li><a href="#"><i class="fas fa-newspaper"></i> الأخبار</a></li>
-                <li><a href="#"><i class="fas fa-calendar-alt"></i> المباريات</a></li>
-                <li><a href="#"><i class="fas fa-info-circle"></i> عنا</a></li>
-            </ul>
-            
-            <div class="user-actions">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="ابحث عن مباراة...">
+            <div class="header-actions">
+                <div class="last-update">
+                    <span id="update-time">آخر تحديث: --:--</span>
                 </div>
-                
-                <div id="authButtons">
-                    <a href="#" class="btn btn-outline" style="margin-right: 1rem;" id="loginButton">
-                        <i class="fas fa-user"></i> تسجيل الدخول
-                    </a>
-                </div>
-                
-                <div class="user-profile" id="userProfile" style="display: none;">
-                    <div class="user-avatar" id="userAvatar">م</div>
-                    <div class="user-menu">
-                        <a href="#"><i class="fas fa-user"></i> الملف الشخصي</a>
-                        <a href="#"><i class="fas fa-bell"></i> الإشعارات</a>
-                        <a href="#"><i class="fas fa-cog"></i> الإعدادات</a>
-                        <a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
-                    </div>
-                </div>
+                <button class="refresh-btn" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    تحديث
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>تابع أهم المباريات مباشرة وبجودة عالية</h1>
-            <p>استمتع بمشاهدة المباريات الحية مع أحدث النتائج والتعليقات والتحليلات الفنية لأهم البطولات العالمية والعربية</p>
-            <div class="hero-buttons">
-                <a href="#" class="btn btn-primary" id="watchLiveBtn">
-                    <i class="fas fa-play"></i> مشاهدة مباشرة
-                </a>
-                <a href="#" class="btn btn-outline" id="scheduleBtn">
-                    <i class="fas fa-calendar-alt"></i> جدول المباريات
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- Main Content -->
     <main class="main-container">
-        <!-- Featured Matches Section -->
-        <section class="featured-section">
-            <div class="section-header">
-                <h2 class="section-title">المباريات المميزة</h2>
-                <a href="#" class="view-all">عرض الكل <i class="fas fa-chevron-left"></i></a>
-            </div>
-            
-            <div class="featured-carousel">
-                <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
-                    <span class="carousel-badge">مباشر</span>
-                    <div class="carousel-content">
-                        <div class="carousel-teams">
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/965mkyh7y0lr1ge.png" alt="غانا">
-                                </div>
-                                <div class="carousel-team-name">غانا</div>
-                            </div>
-                            <div class="carousel-vs">VS</div>
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/pxwrxlh19wvryk0.png" alt="مالي">
-                                </div>
-                                <div class="carousel-team-name">مالي</div>
-                            </div>
-                        </div>
-                        <div class="carousel-score">1 - 1</div>
-                        <div class="carousel-time">
-                            <i class="fas fa-clock"></i> الدقيقة 64'
-                        </div>
-                        <a href="https://oussama2025-d.github.io/osmplayer/" class="btn btn-primary" style="align-self: center;">
-                            <i class="fas fa-play"></i> مشاهدة المباراة
-                        </a>
-                        <div class="carousel-dots">
-                            <div class="carousel-dot active"></div>
-                            <div class="carousel-dot"></div>
-                            <div class="carousel-dot"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
-                    <span class="carousel-badge">قريبًا</span>
-                    <div class="carousel-content">
-                        <div class="carousel-teams">
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/dn1m1gh4z5pmoep.png" alt="تنزانيا">
-                                </div>
-                                <div class="carousel-team-name">تنزانيا</div>
-                            </div>
-                            <div class="carousel-vs">VS</div>
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/4wyrn4h8w9dq86p.png" alt="جنوب أفريقيا">
-                                </div>
-                                <div class="carousel-team-name">جنوب أفريقيا</div>
-                            </div>
-                        </div>
-                        <div class="carousel-score">0 - 0</div>
-                        <div class="carousel-time">
-                            <i class="fas fa-clock"></i> يبدأ بعد 2 ساعة
-                        </div>
-                        <a href="#" class="btn btn-primary" style="align-self: center;" id="remindMeBtn">
-                            <i class="fas fa-bell"></i> تفعيل التذكير
-                        </a>
-                        <div class="carousel-dots">
-                            <div class="carousel-dot"></div>
-                            <div class="carousel-dot active"></div>
-                            <div class="carousel-dot"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
-                    <span class="carousel-badge">انتهت</span>
-                    <div class="carousel-content">
-                        <div class="carousel-teams">
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/4wyrn4h8w9dq86p.png" alt="جنوب أفريقيا">
-                                </div>
-                                <div class="carousel-team-name">جنوب أفريقيا</div>
-                            </div>
-                            <div class="carousel-vs">VS</div>
-                            <div class="carousel-team">
-                                <div class="carousel-team-logo">
-                                    <img src="https://images.elbotola.com/stats/logos/pxwrxlh19wvryk0.png" alt="مالي">
-                                </div>
-                                <div class="carousel-team-name">مالي</div>
-                            </div>
-                        </div>
-                        <div class="carousel-score">2 - 1</div>
-                        <div class="carousel-time">
-                            <i class="fas fa-whistle"></i> انتهت المباراة
-                        </div>
-                        <a href="#" class="btn btn-primary" style="align-self: center;" id="watchHighlightsBtn">
-                            <i class="fas fa-play"></i> مشاهدة الأهداف
-                        </a>
-                        <div class="carousel-dots">
-                            <div class="carousel-dot"></div>
-                            <div class="carousel-dot"></div>
-                            <div class="carousel-dot active"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Filters Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <span class="filter-label">البطولة:</span>
-                <select class="filter-select" id="competitionFilter">
-                    <option value="all">جميع البطولات</option>
-                    <option value="africa">كأس أمم أفريقيا للسيدات</option>
-                    <option value="premier">الدوري الإنجليزي</option>
-                    <option value="la-liga">الدوري الإسباني</option>
-                    <option value="bundesliga">الدوري الألماني</option>
-                    <option value="serie-a">الدوري الإيطالي</option>
-                    <option value="champions">دوري أبطال أفريقيا</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <span class="filter-label">الحالة:</span>
-                <select class="filter-select" id="statusFilter">
-                    <option value="all">جميع المباريات</option>
-                    <option value="live">مباشر الآن</option>
-                    <option value="upcoming">قريبًا</option>
-                    <option value="finished">انتهت</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <span class="filter-label">التاريخ:</span>
-                <select class="filter-select" id="dateFilter">
-                    <option value="today">اليوم</option>
-                    <option value="tomorrow">غدًا</option>
-                    <option value="week">هذا الأسبوع</option>
-                    <option value="month">هذا الشهر</option>
-                    <option value="custom">تاريخ محدد</option>
-                </select>
-            </div>
-            
-            <div class="view-toggle">
-                <button class="view-btn active" id="gridViewBtn"><i class="fas fa-th-large"></i></button>
-                <button class="view-btn" id="listViewBtn"><i class="fas fa-list"></i></button>
-            </div>
-        </section>
-
-        <!-- Matches Grid -->
-        <section class="matches-grid" id="matches-list"></section>
-
-        <!-- Live Channels Section -->
-        <section class="featured-section">
-            <div class="section-header">
-                <h2 class="section-title">القنوات الناقلة</h2>
-                <a href="#" class="view-all">عرض الكل <i class="fas fa-chevron-left"></i></a>
-            </div>
-            
-            <div class="channels-grid">
-                <div class="channel-card">
-                    <div class="channel-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/BeIN_Sports_logo.svg/1200px-BeIN_Sports_logo.svg.png" alt="beIN SPORTS">
-                    </div>
-                    <div class="channel-info">
-                        <h3 class="channel-name">beIN SPORTS 3</h3>
-                        <p class="channel-matches">تعرض <span>5 مباريات</span> اليوم</p>
-                        <a href="https://oussama2025-d.github.io/osmplayer/" class="channel-btn">مشاهدة القناة</a>
-                    </div>
-                </div>
-                
-                <div class="channel-card">
-                    <div class="channel-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Al_Kass_logo.svg/1200px-Al_Kass_logo.svg.png" alt="الكأس">
-                    </div>
-                    <div class="channel-info">
-                        <h3 class="channel-name">قناة الكأس</h3>
-                        <p class="channel-matches">تعرض <span>3 مباريات</span> اليوم</p>
-                        <a href="#" class="channel-btn">مشاهدة القناة</a>
-                    </div>
-                </div>
-                
-                <div class="channel-card">
-                    <div class="channel-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Abu_Dhabi_Sports_2016.svg/1200px-Abu_Dhabi_Sports_2016.svg.png" alt="أبوظبي الرياضية">
-                    </div>
-                    <div class="channel-info">
-                        <h3 class="channel-name">أبوظبي الرياضية</h3>
-                        <p class="channel-matches">تعرض <span>4 مباريات</span> اليوم</p>
-                        <a href="#" class="channel-btn">مشاهدة القناة</a>
-                    </div>
-                </div>
-                
-                <div class="channel-card">
-                    <div class="channel-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/SSC_logo.png/800px-SSC_logo.png" alt="SSC">
-                    </div>
-                    <div class="channel-info">
-                        <h3 class="channel-name">SSC</h3>
-                        <p class="channel-matches">تعرض <span>2 مباريات</span> اليوم</p>
-                        <a href="#" class="channel-btn">مشاهدة القناة</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Latest News Section -->
-        <section class="featured-section">
-            <div class="section-header">
-                <h2 class="section-title">آخر الأخبار</h2>
-                <a href="#" class="view-all">عرض الكل <i class="fas fa-chevron-left"></i></a>
-            </div>
-            
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="News Image">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-clock"></i> منذ 3 ساعات
-                        </div>
-                        <h3 class="news-title">انطلاق كأس أمم أفريقيا للسيدات بمشاركة 12 منتخبًا</h3>
-                        <p class="news-excerpt">انطلقت اليوم منافسات كأس أمم أفريقيا للسيدات 2024 في المغرب بمشاركة 12 منتخبًا...</p>
-                        <a href="#" class="read-more">قراءة المزيد <i class="fas fa-chevron-left"></i></a>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="News Image">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-clock"></i> منذ 5 ساعات
-                        </div>
-                        <h3 class="news-title">مالي تتعادل مع غانا في افتتاح كأس أمم أفريقيا</h3>
-                        <p class="news-excerpt">تعادل منتخب مالي مع نظيره الغاني بهدف لمثله في المباراة الافتتاحية لكأس أمم أفريقيا للسيدات...</p>
-                        <a href="#" class="read-more">قراءة المزيد <i class="fas fa-chevron-left"></i></a>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="News Image">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-clock"></i> منذ يوم
-                        </div>
-                        <h3 class="news-title">جنوب أفريقيا تفوز على مالي وتتأهل لدور الثمانية</h3>
-                        <p class="news-excerpt">تأهل منتخب جنوب أفريقيا إلى دور الثمانية في كأس أمم أفريقيا للسيدات بعد فوزه على مالي...</p>
-                        <a href="#" class="read-more">قراءة المزيد <i class="fas fa-chevron-left"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <h1 class="page-title">المباريات اليوم</h1>
+        
+        <!-- شبكة المباريات -->
+        <div class="matches-grid" id="matches-grid">
+            <!-- سيتم ملؤها بالجافاسكريبت -->
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <h3>عن OSM LIVE</h3>
-                    <div class="footer-about">
-                        <p>منصة OSM LIVE تقدم بث مباشر لأهم المباريات حول العالم مع أحدث النتائج والإحصائيات والتحليلات الفنية.</p>
-                        <div class="footer-social">
-                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>روابط سريعة</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الصفحة الرئيسية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> المباريات الحية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> جدول المباريات</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> القنوات الناقلة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> آخر الأخبار</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>البطولات</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> كأس أمم أفريقيا</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الدوري الإنجليزي</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الدوري الإسباني</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> دوري أبطال أوروبا</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> كأس العالم للأندية</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>النشرة البريدية</h3>
-                    <div class="footer-newsletter">
-                        <p>اشترك في نشرتنا البريدية لتصلك آخر أخبار المباريات والعروض الحصرية.</p>
-                        <input type="email" placeholder="بريدك الإلكتروني" id="newsletterEmail">
-                        <button type="button" id="subscribeBtn">اشترك الآن</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                &copy; 2025 OSM LIVE. جميع الحقوق محفوظة. | تصميم وتطوير فريق OSM
-            </div>
-        </div>
+    <footer class="footer">
+        جميع الحقوق محفوظة &copy; <span id="current-year"></span> لأسامة أبو الحمام
     </footer>
 
     <script>
-        // بيانات المباريات المصححة
+        // بيانات المباريات
         const matches = [
             {
                 id: 1,
-                competition: "كأس أمم أفريقيا للسيدات",
+                competition: "كأس أمم أفريقيا",
+                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
                 homeTeam: {
-                    name: "غانا",
-                    logo: "https://images.elbotola.com/stats/logos/965mkyh7y0lr1ge.png",
-                    shortName: "غانا"
+                    name: "المغرب النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4x1emoep.png",
+                    shortName: "المغرب النسوي"
                 },
                 awayTeam: {
-                    name: "مالي",
-                    logo: "https://images.elbotola.com/stats/logos/pxwrxlh19wvryk0.png",
-                    shortName: "مالي"
+                    name: "السنغال النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/dj2ryohygejq1zp.png",
+                    shortName: "السنغال النسوي"
                 },
-                date: "2025-07-11T20:00:00",
+                    date: new Date(2025, 7, 12, 20, 0), // 20 يناير 2024 الساعة 10 مساءً
+
                 stadium: "ملعب الأمير مولاي عبد الله، الرباط",
                 broadcaster: "beIN SPORTS 3",
-                commentator: "أحمد عبده",
+                commentator: "محمد الشرفي",
                 status: "upcoming",
                 currentMinute: 0,
-                score: "0 - 0",
+                score: "-",
                 streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-                highlightsUrl: "#",
-                events: [],
-                isFeatured: true,
                 competitionType: "africa"
             },
             {
                 id: 2,
-                competition: "كأس أمم أفريقيا للسيدات",
+                competition: "كأس أمم أفريقيا",
+                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
                 homeTeam: {
                     name: "تنزانيا",
-                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4z5pmoep.png",
-                    shortName: "تنزانيا"
+                    logo: "https://images.elbotola.com/stats/logos/2y8m4zh3xkjql07.png",
+                    shortName: "زامبيا النسوي"
                 },
                 awayTeam: {
-                    name: "جنوب أفريقيا",
-                    logo: "https://images.elbotola.com/stats/logos/4wyrn4h8w9dq86p.png",
-                    shortName: "جنوب أفريقيا"
+                    name: "الكونغو الديموقراطية النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/y39mp1h3o17mojx.png",
+                    shortName: "الكونغو الديموقراطية النسوي"
                 },
-                date: "2025-07-11T20:00:00",
+                 date: new Date(2025, 7, 12, 20, 0), // 20 يناير 2024 الساعة 10 مساءً
                 stadium: "ملعب مراكش، مراكش",
                 broadcaster: "beIN SPORTS 3",
-                commentator: "جواد بدة",
+                commentator: "علي الكعبي",
                 status: "live",
-                currentMinute: 64,
-                score: "1 - 1",
+                currentMinute: 0,
+                score: "0 - 0",
                 streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-                highlightsUrl: "#",
-                events: [
-                    { time: 23, type: "goal", team: "home", player: "لاعبة", description: "هدف رائع بتسديدة قوية من خارج المنطقة" },
-                    { time: 45, type: "yellow-card", team: "away", player: "لاعبة", description: "خطأ قاسي على مهاجم الفريق المنافس" },
-                    { time: 51, type: "goal", team: "away", player: "لاعبة", description: "هدف من ركلة جزاء بعد عرقلة واضحة" },
-                ],
-                isFeatured: true,
                 competitionType: "africa"
             },
             {
-                id: 3,
-                competition: "الدوري الإنجليزي",
-                homeTeam: {
-                    name: "مانشستر يونايتد",
-                    logo: "https://images.elbotola.com/stats/logos/4wyrn4h8w9dq86p.png",
-                    shortName: "مان يونايتد"
-                },
-                awayTeam: {
-                    name: "ليفربول",
-                    logo: "https://images.elbotola.com/stats/logos/pxwrxlh19wvryk0.png",
-                    shortName: "ليفربول"
-                },
-                date: "2025-07-10T20:00:00",
-                stadium: "ملعب أولد ترافورد",
-                broadcaster: "beIN SPORTS 2",
-                commentator: "محمد الشريف",
-                status: "finished",
-                currentMinute: 90,
-                score: "2 - 1",
-                streamUrl: "#",
-                highlightsUrl: "#",
-                events: [
-                    { time: 12, type: "goal", team: "home", player: "لاعب", description: "هدف مبكر برأسية رائعة" },
-                    { time: 34, type: "goal", team: "away", player: "لاعب", description: "تسديدة قوية من داخل المنطقة" },
-                    { time: 67, type: "goal", team: "home", player: "لاعب", description: "هدف الفوز من ركلة حرة مباشرة" },
-                    { time: 78, type: "red-card", team: "away", player: "لاعب", description: "طرد مباشر بعد تدخل خطير" }
-                ],
-                isFeatured: false,
-                competitionType: "premier"
-            },
-            {
-                id: 4,
-                competition: "الدوري الإسباني",
-                homeTeam: {
-                    name: "برشلونة",
-                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4z5pmoep.png",
-                    shortName: "برشلونة"
-                },
-                awayTeam: {
-                    name: "ريال مدريد",
-                    logo: "https://images.elbotola.com/stats/logos/965mkyh7y0lr1ge.png",
-                    shortName: "ريال مدريد"
-                },
-                date: "2025-07-12T17:00:00",
-                stadium: "كامب نو",
-                broadcaster: "أبوظبي الرياضية",
-                commentator: "خالد الغندور",
-                status: "upcoming",
-                currentMinute: 0,
-                score: "0 - 0",
-                streamUrl: "#",
-                highlightsUrl: "#",
-                events: [],
-                isFeatured: false,
-                competitionType: "la-liga"
-            },
-            {
-                id: 5,
-                competition: "دوري أبطال أفريقيا",
-                homeTeam: {
-                    name: "الأهلي",
-                    logo: "https://images.elbotola.com/stats/logos/pxwrxlh19wvryk0.png",
-                    shortName: "الأهلي"
-                },
-                awayTeam: {
-                    name: "الزمالك",
-                    logo: "https://images.elbotola.com/stats/logos/4wyrn4h8w9dq86p.png",
-                    shortName: "الزمالك"
-                },
-                date: "2025-07-12T20:00:00",
-                stadium: "استاد القاهرة",
-                broadcaster: "قناة الكأس",
-                commentator: "عمر عبد الرحمن",
-                status: "upcoming",
-                currentMinute: 0,
-                score: "0 - 0",
-                streamUrl: "#",
-                highlightsUrl: "#",
-                events: [],
-                isFeatured: true,
-                competitionType: "champions"
-            },
-            {
-                id: 6,
-                competition: "الدوري الألماني",
-                homeTeam: {
-                    name: "بايرن ميونخ",
-                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4z5pmoep.png",
-                    shortName: "بايرن"
-                },
-                awayTeam: {
-                    name: "دورتموند",
-                    logo: "https://images.elbotola.com/stats/logos/965mkyh7y0lr1ge.png",
-                    shortName: "دورتموند"
-                },
-                date: "2025-07-11T14:00:00",
-                stadium: "أليانز أرينا",
-                broadcaster: "SSC",
-                commentator: "ياسر الشهراني",
-                status: "finished",
-                currentMinute: 90,
-                score: "0 - 2",
-                streamUrl: "#",
-                highlightsUrl: "#",
-                events: [
-                    { time: 28, type: "goal", team: "away", player: "لاعب", description: "تسديدة من داخل المنطقة" },
-                    { time: 65, type: "goal", team: "away", player: "لاعب", description: "هدف من ركلة جزاء" },
-                    { time: 72, type: "yellow-card", team: "home", player: "لاعب", description: "عرقلة خطيرة" }
-                ],
-                isFeatured: false,
-                competitionType: "bundesliga"
-            }
+               
         ];
 
-        // بيانات المستخدمين (محاكاة لقاعدة بيانات)
-        let users = [
-            {
-                id: 1,
-                name: "محمد أحمد",
-                email: "user@example.com",
-                password: "password123",
-                reminders: []
-            }
-        ];
-
-        // بيانات القنوات
-        const channels = [
-            {
-                id: 1,
-                name: "beIN SPORTS 3",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/BeIN_Sports_logo.svg/1200px-BeIN_Sports_logo.svg.png",
-                matchesToday: 5,
-                url: "https://oussama2025-d.github.io/osmplayer/"
-            },
-            {
-                id: 2,
-                name: "قناة الكأس",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Al_Kass_logo.svg/1200px-Al_Kass_logo.svg.png",
-                matchesToday: 3,
-                url: "#"
-            },
-            {
-                id: 3,
-                name: "أبوظبي الرياضية",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Abu_Dhabi_Sports_2016.svg/1200px-Abu_Dhabi_Sports_2016.svg.png",
-                matchesToday: 4,
-                url: "#"
-            },
-            {
-                id: 4,
-                name: "SSC",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/SSC_logo.png/800px-SSC_logo.png",
-                matchesToday: 2,
-                url: "#"
-            }
-        ];
-
-        // بيانات الأخبار
-        const news = [
-            {
-                id: 1,
-                title: "انطلاق كأس أمم أفريقيا للسيدات بمشاركة 12 منتخبًا",
-                excerpt: "انطلقت اليوم منافسات كأس أمم أفريقيا للسيدات 2024 في المغرب بمشاركة 12 منتخبًا...",
-                image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                date: "منذ 3 ساعات"
-            },
-            {
-                id: 2,
-                title: "مالي تتعادل مع غانا في افتتاح كأس أمم أفريقيا",
-                excerpt: "تعادل منتخب مالي مع نظيره الغاني بهدف لمثله في المباراة الافتتاحية لكأس أمم أفريقيا للسيدات...",
-                image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                date: "منذ 5 ساعات"
-            },
-            {
-                id: 3,
-                title: "جنوب أفريقيا تفوز على مالي وتتأهل لدور الثمانية",
-                excerpt: "تأهل منتخب جنوب أفريقيا إلى دور الثمانية في كأس أمم أفريقيا للسيدات بعد فوزه على مالي...",
-                image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                date: "منذ يوم"
-            }
-        ];
-
-        // حالة التطبيق
-        let currentUser = null;
-        let currentView = 'grid'; // 'grid' or 'list'
-
-        // دالة محسنة لتحديث حالة المباراة
+        // تحديث وقت المباراة مع دعم المناطق الزمنية
         function updateMatchStatus(match) {
-            const matchDate = new Date(match.date);
             const now = new Date();
+            const matchDate = new Date(match.date);
             const timeDiff = matchDate - now;
             const matchDuration = 120 * 60 * 1000; // 120 دقيقة كحد أقصى للمباراة
 
-            if (match.status === 'finished') {
-                return; // لا نغير حالة المباريات المنتهية
-            }
+            if (match.status === 'finished') return;
 
             if (timeDiff > 0) {
-                // المباراة لم تبدأ بعد
                 match.status = 'upcoming';
                 match.currentMinute = 0;
-                match.score = "0 - 0"; // التأكد من أن النتيجة 0-0 قبل البدء
+                match.score = "-";
             } else if (timeDiff <= 0 && timeDiff > -matchDuration) {
-                // المباراة جارية
                 match.status = 'live';
                 const minutesPassed = Math.floor((now - matchDate) / 60000);
                 match.currentMinute = Math.min(120, Math.max(0, minutesPassed));
-                
-                // إذا كانت الدقيقة 0 أو أقل، نعتبرها لم تبدأ بعد
                 if (match.currentMinute <= 0) {
                     match.status = 'upcoming';
-                    match.score = "0 - 0";
+                    match.score = "-";
                 }
             } else {
-                // المباراة انتهت
                 match.status = 'finished';
                 match.currentMinute = 90;
             }
         }
 
+        // تنسيق التاريخ والوقت حسب المنطقة الزمنية للمستخدم
+        function formatDateTime(date) {
+            try {
+                // الحصول على المنطقة الزمنية للمستخدم
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                
+                const options = { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    timeZone: userTimeZone,
+                    hour12: false
+                };
+                
+                // تنسيق الوقت مع المنطقة الزمنية
+                let timeStr = new Intl.DateTimeFormat('ar-AR', options).format(date);
+                
+                // إضافة التاريخ إذا كان ليس اليوم
+                const today = new Date();
+                if (date.getDate() !== today.getDate() || 
+                    date.getMonth() !== today.getMonth() || 
+                    date.getFullYear() !== today.getFullYear()) {
+                    
+                    const dateOptions = { 
+                        day: 'numeric', 
+                        month: 'short',
+                        timeZone: userTimeZone
+                    };
+                    const dateStr = new Intl.DateTimeFormat('ar-AR', dateOptions).format(date);
+                    timeStr = `${dateStr} - ${timeStr}`;
+                }
+                
+                return timeStr;
+            } catch (e) {
+                // Fallback إذا كانت المنطقة الزمنية غير معروفة
+                return date.toLocaleTimeString('ar-AR', {hour: '2-digit', minute:'2-digit'});
+            }
+        }
+
         // عرض المباريات
         function renderMatches() {
-            const matchesList = document.getElementById('matches-list');
-            matchesList.innerHTML = '';
+            const matchesContainer = document.getElementById('matches-grid');
+            matchesContainer.innerHTML = '';
             
-            // تطبيق الفلاتر
-            const competitionFilter = document.getElementById('competitionFilter').value;
-            const statusFilter = document.getElementById('statusFilter').value;
-            
-            let filteredMatches = [...matches];
-            
-            if (competitionFilter !== 'all') {
-                filteredMatches = filteredMatches.filter(match => match.competitionType === competitionFilter);
-            }
-            
-            if (statusFilter !== 'all') {
-                filteredMatches = filteredMatches.filter(match => match.status === statusFilter);
-            }
-            
-            // ترتيب المباريات حسب حالة المباراة
-            const sortedMatches = filteredMatches.sort((a, b) => {
-                if (a.status === 'live') return -1;
-                if (b.status === 'live') return 1;
+            // ترتيب المباريات
+            matches.sort((a, b) => {
+                if (a.status === 'live' && b.status !== 'live') return -1;
+                if (a.status !== 'live' && b.status === 'live') return 1;
                 if (a.status === 'upcoming' && b.status === 'finished') return -1;
                 if (a.status === 'finished' && b.status === 'upcoming') return 1;
                 return new Date(a.date) - new Date(b.date);
             });
             
-            sortedMatches.forEach((match) => {
-                // تحديث حالة المباراة قبل العرض
+            // عرض المباريات
+            matches.forEach(match => {
                 updateMatchStatus(match);
                 
-                // تنسيق الوقت حسب المنطقة الزمنية المختارة
-                const options = { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric', 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    timeZone: 'Africa/Cairo'
-                };
+                const statusText = 
+                    match.status === 'upcoming' ? 'قريبًا' : 
+                    match.status === 'live' ? `مباشر (${match.currentMinute}')` : 'انتهت';
                 
-                const formattedDate = new Date(match.date).toLocaleDateString('ar-AR', options);
-                const timezoneName = getTimezoneName('Africa/Cairo');
-                
-                // إنشاء بطاقة المباراة
-                let matchCard = document.createElement('div');
-                matchCard.className = `match-card ${match.status} ${currentView === 'list' ? 'list-view' : ''}`;
-                
-                // إضافة شريط التميز إذا كانت المباراة مميزة
-                const ribbon = match.isFeatured ? `<div class="ribbon">مميز</div>` : '';
-                
-                // إنشاء عناصر الأحداث
-                let eventsHtml = '';
-                if (match.events.length > 0 && match.status !== 'upcoming') {
-                    eventsHtml = createEventsHtml(match.events);
-                }
+                const matchCard = document.createElement('div');
+                matchCard.className = `match-card ${match.status}`;
                 
                 matchCard.innerHTML = `
-                    ${ribbon}
+                    ${match.status === 'live' ? 
+                    '<div class="live-indicator"><div class="live-pulse"></div>بث مباشر</div>' : ''}
+                    
                     <div class="match-header">
-                        <span class="competition"><i class="fas fa-trophy"></i> ${match.competition}</span>
-                        <span class="match-status status-${match.status}">
-                            ${match.status === 'upcoming' ? 'قريبًا' : 
-                              match.status === 'live' ? 'مباشر الآن' : 'انتهت'}
-                        </span>
+                        <div class="competition-info">
+                            <img src="${match.competitionLogo || 'https://via.placeholder.com/24'}" 
+                                 alt="${match.competition}" 
+                                 class="competition-logo">
+                            <span class="competition-name">${match.competition}</span>
+                        </div>
+                        <span class="match-status status-${match.status}">${statusText}</span>
                     </div>
+                    
                     <div class="match-content">
-                        <div class="teams">
+                        <div class="teams-container">
                             <div class="team">
                                 <div class="team-logo-container">
-                                    <img src="${match.homeTeam.logo}" class="team-logo" alt="${match.homeTeam.name}">
+                                    <img src="${match.homeTeam.logo}" 
+                                         class="team-logo" 
+                                         alt="${match.homeTeam.name}">
                                 </div>
-                                <span class="team-name">${match.homeTeam.name}</span>
+                                <span class="team-name">${match.homeTeam.shortName}</span>
                             </div>
                             
-                            <div class="vs-container">
-                                <div class="match-time">
-                                    <i class="far fa-clock"></i> ${formattedDate}
-                                </div>
-                                <div class="score">${match.score}</div>
-                                <div class="time-info">(توقيت ${timezoneName})</div>
+                            <div class="score-container">
+                                <div class="match-time">${formatDateTime(new Date(match.date))}</div>
+                                <div class="match-score">${match.score}</div>
                             </div>
                             
                             <div class="team">
                                 <div class="team-logo-container">
-                                    <img src="${match.awayTeam.logo}" class="team-logo" alt="${match.awayTeam.name}">
+                                    <img src="${match.awayTeam.logo}" 
+                                         class="team-logo" 
+                                         alt="${match.awayTeam.name}">
                                 </div>
-                                <span class="team-name">${match.awayTeam.name}</span>
+                                <span class="team-name">${match.awayTeam.shortName}</span>
                             </div>
                         </div>
-                        
-                        ${match.status === 'live' ? `
-                        <div class="match-progress">
-                            <div class="progress-bar" style="width: ${(match.currentMinute / 90) * 100}%"></div>
-                        </div>
-                        ` : ''}
                         
                         <div class="match-details">
-                            <div class="detail-box">
-                                <div class="detail-icon">
+                            <div class="detail-row">
+                                <span class="detail-label">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    الملعب
+                                </span>
+                                <span class="detail-value">${match.stadium}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">
                                     <i class="fas fa-tv"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>القناة الناقلة</h4>
-                                    <p>${match.broadcaster}</p>
-                                </div>
+                                    القناة
+                                </span>
+                                <span class="detail-value">${match.broadcaster}</span>
                             </div>
-                            
-                            <div class="detail-box">
-                                <div class="detail-icon">
-                                    <i class="fas fa-microphone"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>المعلق</h4>
-                                    <p>${match.commentator}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="detail-box">
-                                <div class="detail-icon">
-                                    <i class="fas fa-stadium"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <h4>الملعب</h4>
-                                    <p>${match.stadium}</p>
-                                </div>
+                            <div class="detail-row">
+                                <span class="detail-label">
+                                    <i class="fas fa-microphone-alt"></i>
+                                    المعلق
+                                </span>
+                                <span class="detail-value">${match.commentator}</span>
                             </div>
                         </div>
                         
-                        ${eventsHtml}
-                        
-                        <div class="action-buttons">
-                            ${createActionButtons(match)}
-                        </div>
+                        ${match.status === 'live' || match.status === 'finished' ? 
+                          `<a href="${match.streamUrl}" class="watch-btn" target="_blank">
+                              <i class="fas fa-play"></i> مشاهدة البث
+                          </a>` : 
+                          `<button class="watch-btn" disabled>
+                              <i class="far fa-clock"></i> قريبًا
+                          </button>`}
                     </div>
-                    ${createMatchFooter(match)}
                 `;
                 
-                matchesList.appendChild(matchCard);
+                matchesContainer.appendChild(matchCard);
             });
             
-            // إضافة أحداث للأزرار
-            addButtonEvents();
+            // تحديث وقت التحديث الأخير
+            const now = new Date();
+            document.getElementById('update-time').textContent = `آخر تحديث: ${now.toLocaleTimeString('ar-AR', {hour: '2-digit', minute:'2-digit'})}`;
         }
 
-        // دالة مساعدة لإنشاء HTML للأحداث
-        function createEventsHtml(events) {
-            let eventsHtml = `<div class="match-events">
-                <div class="events-title">
-                    <i class="fas fa-list-alt"></i>
-                    <span>أحداث المباراة</span>
-                </div>`;
-            
-            events.forEach(event => {
-                let eventIcon = '';
-                let eventColor = '';
-                
-                switch(event.type) {
-                    case 'goal':
-                        eventIcon = 'fas fa-futbol';
-                        eventColor = 'var(--success-color)';
-                        break;
-                    case 'yellow-card':
-                        eventIcon = 'fas fa-square';
-                        eventColor = 'var(--warning-color)';
-                        break;
-                    case 'red-card':
-                        eventIcon = 'fas fa-square';
-                        eventColor = 'var(--danger-color)';
-                        break;
-                    case 'substitution':
-                        eventIcon = 'fas fa-exchange-alt';
-                        eventColor = 'var(--secondary-color)';
-                        break;
-                    default:
-                        eventIcon = 'fas fa-info-circle';
-                        eventColor = 'var(--text-light)';
-                }
-                
-                eventsHtml += `<div class="event-item">
-                    <div class="event-time">${event.time}'</div>
-                    <div class="event-icon" style="color: ${eventColor}">
-                        <i class="${eventIcon}"></i>
-                    </div>
-                    <div class="event-text">
-                        <strong>${event.player}</strong> - ${event.description}
-                    </div>
-                </div>`;
-            });
-            
-            eventsHtml += `</div>`;
-            return eventsHtml;
-        }
-
-        // دالة مساعدة لإنشاء أزرار التحكم
-        function createActionButtons(match) {
-            if (match.status === 'upcoming') {
-                return `<button class="watch-btn watch-reminder-btn" data-match-id="${match.id}">
-                    <i class="fas fa-bell"></i> تذكير بالمباراة
-                </button>`;
-            } else if (match.status === 'live') {
-                return `<a href="${match.streamUrl}" class="watch-btn watch-live-btn">
-                    <i class="fas fa-play"></i> مشاهدة مباشرة
-                </a>
-                <button class="watch-btn stats-btn" data-match-id="${match.id}">
-                    <i class="fas fa-chart-bar"></i> الإحصائيات
-                </button>`;
-            } else {
-                return `<a href="${match.highlightsUrl}" class="watch-btn watch-highlights-btn">
-                    <i class="fas fa-play"></i> مشاهدة الأهداف
-                </a>
-                <button class="watch-btn stats-btn" data-match-id="${match.id}">
-                    <i class="fas fa-chart-bar"></i> الإحصائيات
-                </button>`;
-            }
-        }
-
-        // دالة مساعدة لإنشاء تذييل بطاقة المباراة
-        function createMatchFooter(match) {
-            if (match.status === 'live') {
-                return `<div class="match-footer">
-                    <div class="live-info">
-                        <i class="fas fa-circle"></i> النتيجة الحالية: ${match.score}
-                    </div>
-                    <div>
-                        الدقيقة ${match.currentMinute}'
-                    </div>
-                </div>`;
-            } else if (match.status === 'finished') {
-                return `<div style="text-align: center; margin: 20px; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); padding: 12px; border-radius: 8px;">
-                    <i class="fas fa-futbol" style="color: var(--success-color);"></i>
-                    <span style="font-weight: 700; margin-right: 8px;">النتيجة النهائية: ${match.score}</span>
-                </div>`;
-            }
-            return '';
-        }
-
-        // الحصول على اسم المنطقة الزمنية بطريقة مقروءة
-        function getTimezoneName(timezone) {
-            const timezoneNames = {
-                'Asia/Riyadh': 'المملكة العربية السعودية',
-                'Asia/Dubai': 'الإمارات العربية المتحدة',
-                'Africa/Cairo': 'مصر',
-                'Asia/Baghdad': 'العراق',
-                'Asia/Amman': 'الأردن',
-                'Europe/London': 'بريطانيا',
-                'Europe/Paris': 'فرنسا',
-                'America/New_York': 'الولايات المتحدة'
-            };
-            
-            return timezoneNames[timezone] || timezone;
-        }
-        
-        // إضافة أحداث للأزرار
-        function addButtonEvents() {
-            // تفعيل التذكير بالمباراة
-            document.querySelectorAll('.watch-reminder-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const matchId = this.getAttribute('data-match-id');
-                    const match = matches.find(m => m.id == matchId);
-                    
-                    if (!currentUser) {
-                        showNotification('يجب تسجيل الدخول لتفعيل التذكير', 'warning');
-                        showAuthModal('login');
-                        return;
-                    }
-                    
-                    if ('Notification' in window) {
-                        Notification.requestPermission().then(permission => {
-                            if (permission === 'granted') {
-                                // حساب وقت التذكير (15 دقيقة قبل المباراة)
-                                const matchDate = new Date(match.date);
-                                const reminderTime = new Date(matchDate.getTime() - 15 * 60000);
-                                
-                                // إعداد التذكير
-                                const now = new Date();
-                                if (reminderTime > now) {
-                                    const timeout = reminderTime - now;
-                                    
-                                    // حفظ التذكير للمستخدم
-                                    const reminder = {
-                                        matchId: match.id,
-                                        timeoutId: setTimeout(() => {
-                                            new Notification('تذكير بالمباراة', {
-                                                body: `مباراة ${match.homeTeam.name} vs ${match.awayTeam.name} ستبدأ بعد 15 دقيقة!`,
-                                                icon: match.homeTeam.logo
-                                            });
-                                        }, timeout),
-                                        matchDate: match.date,
-                                        teams: `${match.homeTeam.name} vs ${match.awayTeam.name}`
-                                    };
-                                    
-                                    currentUser.reminders.push(reminder);
-                                    showNotification(`تم تفعيل التذكير لمباراة ${match.homeTeam.shortName} vs ${match.awayTeam.shortName}`, 'success');
-                                } else {
-                                    showNotification('لا يمكن تفعيل التذكير لأن المباراة ستبدأ قريبًا', 'warning');
-                                }
-                            } else {
-                                showNotification('يجب السماح بالإشعارات لتفعيل التذكير بالمباراة', 'warning');
-                            }
-                        });
-                    } else {
-                        showNotification('المتصفح لا يدعم نظام الإشعارات. نوصي باستخدام متصفح حديث', 'warning');
-                    }
-                });
-            });
-            
-            // عرض الإحصائيات
-            document.querySelectorAll('.stats-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const matchId = this.getAttribute('data-match-id');
-                    const match = matches.find(m => m.id == matchId);
-                    showNotification(`سيتم عرض إحصائيات مباراة ${match.homeTeam.name} vs ${match.awayTeam.name}`, 'info');
-                });
-            });
-            
-            // تأثير عند النقر على أي زر مشاهدة
-            document.querySelectorAll('.watch-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    if (!this.getAttribute('href') || this.getAttribute('href') === '#') {
-                        e.preventDefault();
-                    }
-                });
-            });
-        }
-        
-        // Carousel functionality
-        function setupCarousel() {
-            const slides = document.querySelectorAll('.carousel-slide');
-            const dots = document.querySelectorAll('.carousel-dot');
-            let currentSlide = 0;
-            
-            function showSlide(n) {
-                slides.forEach(slide => slide.classList.remove('active'));
-                dots.forEach(dot => dot.classList.remove('active'));
-                
-                currentSlide = (n + slides.length) % slides.length;
-                slides[currentSlide].classList.add('active');
-                dots[currentSlide].classList.add('active');
-            }
-            
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-            
-            // Set up dots
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => showSlide(index));
-            });
-            
-            // Auto-rotate slides every 5 seconds
-            setInterval(nextSlide, 5000);
-        }
-        
-        // تحديث حالة المباريات كل دقيقة
-        function updateMatchesStatus() {
+        // تحديث المباريات كل دقيقة
+        function updateMatchesPeriodically() {
             renderMatches();
-            setTimeout(updateMatchesStatus, 60000);
+            setTimeout(updateMatchesPeriodically, 60000);
         }
-        
-        // عرض نافذة المصادقة
-        function showAuthModal(tab = 'login') {
-            const modal = document.getElementById('authModal');
-            modal.style.display = 'flex';
-            
-            if (tab === 'login') {
-                document.getElementById('loginTab').classList.add('active');
-                document.getElementById('registerTab').classList.remove('active');
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('registerForm').style.display = 'none';
-            } else {
-                document.getElementById('registerTab').classList.add('active');
-                document.getElementById('loginTab').classList.remove('active');
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('registerForm').style.display = 'block';
-            }
-        }
-        
-        // إخفاء نافذة المصادقة
-        function hideAuthModal() {
-            const modal = document.getElementById('authModal');
-            modal.style.display = 'none';
-        }
-        
-        // تسجيل الدخول
-        function login(email, password) {
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                currentUser = user;
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                updateUserUI();
-                hideAuthModal();
-                showNotification('تم تسجيل الدخول بنجاح', 'success');
-                return true;
-            } else {
-                showNotification('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'danger');
-                return false;
-            }
-        }
-        
-        // تسجيل حساب جديد
-        function register(name, email, password) {
-            // التحقق من عدم وجود مستخدم بنفس البريد الإلكتروني
-            if (users.some(u => u.email === email)) {
-                showNotification('هذا البريد الإلكتروني مستخدم بالفعل', 'danger');
-                return false;
-            }
-            
-            // إنشاء مستخدم جديد
-            const newUser = {
-                id: users.length + 1,
-                name: name,
-                email: email,
-                password: password,
-                reminders: []
-            };
-            
-            users.push(newUser);
-            currentUser = newUser;
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            updateUserUI();
-            hideAuthModal();
-            showNotification('تم إنشاء الحساب بنجاح', 'success');
-            return true;
-        }
-        
-        // تسجيل الخروج
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            updateUserUI();
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
-        }
-        
-        // تحديث واجهة المستخدم حسب حالة تسجيل الدخول
-        function updateUserUI() {
-            const authButtons = document.getElementById('authButtons');
-            const userProfile = document.getElementById('userProfile');
-            const userAvatar = document.getElementById('userAvatar');
-            
-            if (currentUser) {
-                authButtons.style.display = 'none';
-                userProfile.style.display = 'flex';
-                
-                // عرض الحرف الأول من اسم المستخدم
-                const firstName = currentUser.name.split(' ')[0];
-                userAvatar.textContent = firstName.charAt(0);
-            } else {
-                authButtons.style.display = 'block';
-                userProfile.style.display = 'none';
-            }
-        }
-        
-        // عرض الإشعارات
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            
-            let icon = '';
-            let bgColor = '';
-            
-            switch(type) {
-                case 'success':
-                    icon = 'fas fa-check-circle';
-                    bgColor = 'var(--success-color)';
-                    break;
-                case 'warning':
-                    icon = 'fas fa-exclamation-circle';
-                    bgColor = 'var(--warning-color)';
-                    break;
-                case 'danger':
-                    icon = 'fas fa-times-circle';
-                    bgColor = 'var(--danger-color)';
-                    break;
-                default:
-                    icon = 'fas fa-info-circle';
-                    bgColor = 'var(--secondary-color)';
-            }
-            
-            notification.style.background = bgColor;
-            notification.innerHTML = `<i class="${icon}"></i> <span>${message}</span>`;
-            document.body.appendChild(notification);
-            
-            // إخفاء الإشعار بعد 3 ثواني
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-        
+
         // بدء التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            // إخفاء شاشة التحميل بعد 1.5 ثانية
-            setTimeout(() => {
-                document.querySelector('.loading-overlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.querySelector('.loading-overlay').style.display = 'none';
-                }, 300);
-            }, 1500);
+            // تعيين سنة حقوق النشر
+            document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // تحميل بيانات المستخدم من localStorage إن وجدت
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-            }
-            
-            // تحديث واجهة المستخدم
-            updateUserUI();
-            
-            // إعداد أحداث المصادقة
-            document.getElementById('loginButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                showAuthModal('login');
-            });
-            
-            document.getElementById('showRegister').addEventListener('click', function(e) {
-                e.preventDefault();
-                showAuthModal('register');
-            });
-            
-            document.getElementById('showLogin').addEventListener('click', function(e) {
-                e.preventDefault();
-                showAuthModal('login');
-            });
-            
-            document.getElementById('logoutButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
-            });
-            
-            // إعداد أحداث النماذج
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                login(email, password);
-            });
-            
-            document.getElementById('registerForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('registerName').value;
-                const email = document.getElementById('registerEmail').value;
-                const password = document.getElementById('registerPassword').value;
-                const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                
-                if (password !== confirmPassword) {
-                    showNotification('كلمة المرور غير متطابقة', 'danger');
-                    return;
-                }
-                
-                register(name, email, password);
-            });
-            
-            // إعداد أحداث الفلاتر
-            document.getElementById('competitionFilter').addEventListener('change', renderMatches);
-            document.getElementById('statusFilter').addEventListener('change', renderMatches);
-            document.getElementById('dateFilter').addEventListener('change', renderMatches);
-            
-            // إعداد أحداث تغيير طريقة العرض
-            document.getElementById('gridViewBtn').addEventListener('click', function() {
-                currentView = 'grid';
-                this.classList.add('active');
-                document.getElementById('listViewBtn').classList.remove('active');
-                renderMatches();
-            });
-            
-            document.getElementById('listViewBtn').addEventListener('click', function() {
-                currentView = 'list';
-                this.classList.add('active');
-                document.getElementById('gridViewBtn').classList.remove('active');
-                renderMatches();
-            });
-            
-            // إعداد أحداث الأزرار الرئيسية
-            document.getElementById('watchLiveBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = "https://oussama2025-d.github.io/osmplayer/";
-            });
-            
-            document.getElementById('scheduleBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('statusFilter').value = 'upcoming';
-                renderMatches();
-                window.scrollTo({
-                    top: document.getElementById('matches-list').offsetTop - 100,
-                    behavior: 'smooth'
-                });
-            });
-            
-            document.getElementById('remindMeBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (!currentUser) {
-                    showNotification('يجب تسجيل الدخول لتفعيل التذكير', 'warning');
-                    showAuthModal('login');
-                } else {
-                    showNotification('تم تفعيل التذكير للمباراة القادمة', 'success');
-                }
-            });
-            
-            document.getElementById('watchHighlightsBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                showNotification('سيتم عرض ملخص المباراة قريبًا', 'info');
-            });
-            
-            // إعداد حدث الاشتراك في النشرة البريدية
-            document.getElementById('subscribeBtn').addEventListener('click', function() {
-                const email = document.getElementById('newsletterEmail').value;
-                if (email && email.includes('@')) {
-                    showNotification('شكرًا لك على الاشتراك في النشرة البريدية', 'success');
-                    document.getElementById('newsletterEmail').value = '';
-                } else {
-                    showNotification('الرجاء إدخال بريد إلكتروني صحيح', 'warning');
-                }
-            });
-            
-            // إخفاء نافذة المصادقة عند النقر خارجها
-            document.getElementById('authModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hideAuthModal();
-                }
-            });
-            
-            // عرض المباريات والميزات الأخرى
             renderMatches();
-            setupCarousel();
-            updateMatchesStatus();
+            updateMatchesPeriodically();
+            
+            // إضافة حدث تحديث يدوي
+            document.getElementById('refresh-btn').addEventListener('click', function() {
+                renderMatches();
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحديث';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث';
+                }, 1000);
+            });
         });
     </script>
-    <script type='text/javascript' src='//pl27130835.profitableratecpm.com/e1/30/e5/e130e59cd573d04883b03f5a83ef841a.js'></script>
 </body>
 </html>
