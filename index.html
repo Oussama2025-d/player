@@ -141,7 +141,7 @@
         
         .matches-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
             gap: 1.5rem;
         }
         
@@ -246,8 +246,8 @@
         }
         
         .team-logo-container {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.05);
             display: flex;
@@ -264,14 +264,14 @@
         }
         
         .team-logo {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
         }
         
         .team-name {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             text-align: center;
             color: var(--text);
         }
@@ -284,13 +284,13 @@
         }
         
         .match-time {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
         
         .match-score {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(90deg, var(--accent) 0%, #93c5fd 100%);
             -webkit-background-clip: text;
@@ -310,7 +310,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.7rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         
         .detail-row:last-child {
@@ -413,9 +413,53 @@
             100% { transform: scale(0.95); opacity: 1; }
         }
         
+        /* تحسينات للحواسب */
+        @media (min-width: 1024px) {
+            .matches-grid {
+                grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+                gap: 2rem;
+            }
+            
+            .match-card {
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            
+            .team-logo-container {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .team-logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .team-name {
+                font-size: 1.2rem;
+            }
+            
+            .match-score {
+                font-size: 2.5rem;
+            }
+            
+            .match-details {
+                padding: 1.2rem;
+            }
+            
+            .detail-row {
+                font-size: 0.95rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .watch-btn {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+        }
+        
         @media (max-width: 1200px) {
             .matches-grid {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             }
         }
         
