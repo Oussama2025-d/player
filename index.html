@@ -476,6 +476,7 @@
             <div class="header-actions">
                 <div class="last-update">
                     <span id="update-time">آخر تحديث: --:--</span>
+                    <span id="user-timezone"></span>
                 </div>
                 <button class="refresh-btn" id="refresh-btn">
                     <i class="fas fa-sync-alt"></i>
@@ -502,56 +503,108 @@
 
     <script>
         // بيانات المباريات
-       const matches = [
-    {
-        id: 1,
-        competition: "كأس أمم أفريقيا",
-        competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
-        homeTeam: {
-            name: "المغرب النسوي",
-            logo: "https://images.elbotola.com/stats/logos/dn1m1gh4x1emoep.png",
-            shortName: "المغرب النسوي"
-        },
-        awayTeam: {
-            name: "السنغال النسوي",
-            logo: "https://images.elbotola.com/stats/logos/dj2ryohygejq1zp.png",
-            shortName: "السنغال النسوي"
-        },
-        date: new Date(2025, 6, 12, 20, 0), // تم تصحيح التاريخ (يوليو = 6 لأن الأشهر تبدأ من 0)
-        stadium: "ملعب الأمير مولاي عبد الله، الرباط",
-        broadcaster: "beIN SPORTS 3",
-        commentator: "محمد الشرفي",
-        status: "upcoming",
-        currentMinute: 0,
-        score: "-",
-        streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-        competitionType: "africa"
-    },
-    {
-        id: 2,
-        competition: "كأس أمم أفريقيا",
-        competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
-        homeTeam: {
-            name: "تنزانيا",
-            logo: "https://images.elbotola.com/stats/logos/2y8m4zh3xkjql07.png",
-            shortName: "زامبيا النسوي"
-        },
-        awayTeam: {
-            name: "الكونغو الديموقراطية النسوي",
-            logo: "https://images.elbotola.com/stats/logos/y39mp1h3o17mojx.png",
-            shortName: "الكونغو الديموقراطية النسوي"
-        },
-        date: new Date(2025, 6, 12, 20, 0), // تم تصحيح التاريخ
-        stadium: "ملعب مراكش، مراكش",
-        broadcaster: "beIN SPORTS 3",
-        commentator: "علي الكعبي",
-        status: "live",
-        currentMinute: 0,
-        score: "0 - 0",
-        streamUrl: "https://oussama2025-d.github.io/osmplayer/",
-        competitionType: "africa"
-    }
-        // تحديث وقت المباراة مع دعم المناطق الزمنية
+        const matches = [
+            {
+                id: 1,
+                competition: "كأس أمم أفريقيا",
+                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
+                homeTeam: {
+                    name: "المغرب النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/dn1m1gh4x1emoep.png",
+                    shortName: "المغرب النسوي"
+                },
+                awayTeam: {
+                    name: "السنغال النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/dj2ryohygejq1zp.png",
+                    shortName: "السنغال النسوي"
+                },
+                date: "2023-07-15T20:00:00+01:00", // 20:00 بتوقيت المغرب (UTC+1)
+                stadium: "ملعب الأمير مولاي عبد الله، الرباط",
+                broadcaster: "beIN SPORTS 3",
+                commentator: "محمد الشرفي",
+                status: "upcoming",
+                currentMinute: 0,
+                score: "-",
+                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
+                competitionType: "africa"
+            },
+            {
+                id: 2,
+                competition: "كأس أمم أفريقيا",
+                competitionLogo: "https://images.elbotola.com/stats/logos/africa-cup.png",
+                homeTeam: {
+                    name: "تنزانيا",
+                    logo: "https://images.elbotola.com/stats/logos/2y8m4zh3xkjql07.png",
+                    shortName: "زامبيا النسوي"
+                },
+                awayTeam: {
+                    name: "الكونغو الديموقراطية النسوي",
+                    logo: "https://images.elbotola.com/stats/logos/y39mp1h3o17mojx.png",
+                    shortName: "الكونغو الديموقراطية النسوي"
+                },
+                date: "2023-07-15T22:00:00+01:00", // 22:00 بتوقيت المغرب (UTC+1)
+                stadium: "ملعب مراكش، مراكش",
+                broadcaster: "beIN SPORTS 3",
+                commentator: "علي الكعبي",
+                status: "upcoming",
+                currentMinute: 0,
+                score: "-",
+                streamUrl: "https://oussama2025-d.github.io/osmplayer/",
+                competitionType: "africa"
+            }
+        ];
+
+        // دالة لتحويل التاريخ إلى وقت المستخدم المحلي
+        function formatDateTimeForUser(dateString) {
+            try {
+                const date = new Date(dateString);
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                
+                const timeOptions = { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    timeZone: userTimeZone,
+                    hour12: false
+                };
+                
+                const dateOptions = { 
+                    weekday: 'short',
+                    day: 'numeric', 
+                    month: 'short',
+                    timeZone: userTimeZone
+                };
+                
+                const timeStr = new Intl.DateTimeFormat('ar-AR', timeOptions).format(date);
+                const dateStr = new Intl.DateTimeFormat('ar-AR', dateOptions).format(date);
+                
+                return `${dateStr} - ${timeStr}`;
+            } catch (e) {
+                console.error("Error formatting date:", e);
+                return dateString;
+            }
+        }
+
+        // دالة لتحويل التاريخ إلى وقت المستخدم المحلي (للوقت فقط)
+        function formatTimeForUser(dateString) {
+            try {
+                const date = new Date(dateString);
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                
+                const options = { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    timeZone: userTimeZone,
+                    hour12: false
+                };
+                
+                return new Intl.DateTimeFormat('ar-AR', options).format(date);
+            } catch (e) {
+                console.error("Error formatting time:", e);
+                return dateString;
+            }
+        }
+
+        // تحديث حالة المباراة مع دعم المناطق الزمنية
         function updateMatchStatus(match) {
             const now = new Date();
             const matchDate = new Date(match.date);
@@ -575,44 +628,6 @@
             } else {
                 match.status = 'finished';
                 match.currentMinute = 90;
-            }
-        }
-
-        // تنسيق التاريخ والوقت حسب المنطقة الزمنية للمستخدم
-        function formatDateTime(date) {
-            try {
-                // الحصول على المنطقة الزمنية للمستخدم
-                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                
-                const options = { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    timeZone: userTimeZone,
-                    hour12: false
-                };
-                
-                // تنسيق الوقت مع المنطقة الزمنية
-                let timeStr = new Intl.DateTimeFormat('ar-AR', options).format(date);
-                
-                // إضافة التاريخ إذا كان ليس اليوم
-                const today = new Date();
-                if (date.getDate() !== today.getDate() || 
-                    date.getMonth() !== today.getMonth() || 
-                    date.getFullYear() !== today.getFullYear()) {
-                    
-                    const dateOptions = { 
-                        day: 'numeric', 
-                        month: 'short',
-                        timeZone: userTimeZone
-                    };
-                    const dateStr = new Intl.DateTimeFormat('ar-AR', dateOptions).format(date);
-                    timeStr = `${dateStr} - ${timeStr}`;
-                }
-                
-                return timeStr;
-            } catch (e) {
-                // Fallback إذا كانت المنطقة الزمنية غير معروفة
-                return date.toLocaleTimeString('ar-AR', {hour: '2-digit', minute:'2-digit'});
             }
         }
 
@@ -667,8 +682,9 @@
                             </div>
                             
                             <div class="score-container">
-                                <div class="match-time">${formatDateTime(new Date(match.date))}</div>
+                                <div class="match-time">${formatTimeForUser(match.date)}</div>
                                 <div class="match-score">${match.score}</div>
+                                <small style="color: var(--text-secondary);">${formatDateTimeForUser(match.date)}</small>
                             </div>
                             
                             <div class="team">
@@ -721,6 +737,14 @@
             // تحديث وقت التحديث الأخير
             const now = new Date();
             document.getElementById('update-time').textContent = `آخر تحديث: ${now.toLocaleTimeString('ar-AR', {hour: '2-digit', minute:'2-digit'})}`;
+            
+            // عرض المنطقة الزمنية للمستخدم
+            try {
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById('user-timezone').textContent = `(التوقيت المحلي: ${userTimeZone})`;
+            } catch (e) {
+                console.error("Error detecting timezone:", e);
+            }
         }
 
         // تحديث المباريات كل دقيقة
